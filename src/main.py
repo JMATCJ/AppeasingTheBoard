@@ -31,7 +31,7 @@ class Meter(pygame.sprite.Sprite):
         # Meter position
         self.bg_rect = self.bg_surf.get_rect(topleft=meter_pos)
         self.fg_rect = self.fg_surf.get_rect(topleft=meter_pos)
-    
+
         # Meter text
         self.text = FONT.render(meter_text, True, FONT_COLOR)
         print(f"{meter_text}: w: {self.text.get_width()}, h: {self.text.get_height()}")
@@ -69,7 +69,7 @@ class Prompt(pygame.sprite.Sprite):
 
         # Prompt position
         self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
-        
+
         # Prompt text attached to buttons
         # self.text = FONT.render(prompt_text, True, FONT_COLOR)
         # self.surf.blit(self.text, self.text.get_rect(center=(200, 90)))
@@ -92,21 +92,29 @@ class Prompt(pygame.sprite.Sprite):
 
 
 class Round(pygame.sprite.Sprite):
-    def __init__(self, round_text: str):
+    def __init__(self, year, quarter):
         super().__init__()
-        FONT = pygame.font.SysFont("comic sans ms", 36)
+        self.year = year
+        self.quarter = quarter
+
         # Rendering round text
-        self.round_ind = FONT.render(round_text, True, randcolor())  # (111, 38, 166)
-        
+        self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
+
         # Round text position
-        self.rect = self.round_ind.get_rect(topleft=(20, 50))
+        self.rect = self.round_ind.get_rect(topleft=(20, 10))
 
     def draw(self, screen):
         screen.blit(self.round_ind, self.rect)
 
     def handle_click(self):
-        pass
+        self.quarter += 1
+        if (self.quarter >= 5):
+            self.quarter = 1
+            self.year += 1
+        self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
 
+   # def handle_nextYear(self):
+    #    self.text =
 
 class NextRound(pygame.sprite.Sprite):
     def __init__(self):
@@ -127,7 +135,8 @@ class NextRound(pygame.sprite.Sprite):
         screen.blit(self.surf, self.rect)
 
     def handle_click(self):
-        pass
+        round.handle_click()
+
 
 
 # Main
@@ -137,6 +146,8 @@ SCREEN_HEIGHT = 720
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 MOUSE_LEFT_CLICK = 1
 FONT_COLOR = (222, 222, 222)
+ROUND_FONT = pygame.font.SysFont("comic sans ms", 36)
+
 
 # Instantiate the Meter
 company_cash_meter = Meter((10, 385), "Company Cash", "cash.png")
@@ -156,7 +167,7 @@ prompt_8 = Prompt((430, 530), "eight")
 prompt_9 = Prompt((850, 530), "nine")
 
 # Round indicator
-round = Round("Y1, Q1")
+round = Round(2022, 1)
 
 # Next Round
 next_round = NextRound()
@@ -164,9 +175,9 @@ next_round = NextRound()
 # Create meter group
 meters = pygame.sprite.Group()
 meters.add(company_cash_meter, employee_morale_meter, employee_productivity_meter, company_reputation_meter)
-# Prompts group
-prompts = pygame.sprite.Group()
-prompts.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9)
+# Buttons group
+buttons = pygame.sprite.Group()
+buttons.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9, next_round)
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
@@ -178,12 +189,12 @@ while running:
         if event.type == QUIT:
             running = False
         elif event.type == MOUSEBUTTONUP and event.button == MOUSE_LEFT_CLICK:
-            clicked_sprite = next((s for s in prompts if s.rect.collidepoint(event.pos)), None)
+            clicked_sprite = next((s for s in buttons if s.rect.collidepoint(event.pos)), None)
             if clicked_sprite is not None:
                 clicked_sprite.handle_click()
         elif event.type == MOUSEMOTION:
-            for prompt in prompts:
-                prompt.hovered = prompt.rect.collidepoint(event.pos)
+            for button in buttons:
+                button.hovered = button.rect.collidepoint(event.pos)
         elif event.type == KEYDOWN:   # TEMP TESTING CODE
             if event.key == K_UP:
                 for meter in meters:
@@ -204,14 +215,11 @@ while running:
         meter.draw(screen)
 
     # Draw prompt buttons to screen
-    # for prompt in prompts:
-    #     prompt.draw(screen)
+    for button in buttons:
+        button.draw(screen)
 
     # # Draw round indicator to screen
-    # round.draw(screen)
-    #
-    # # Draw next round button to screen
-    # next_round.draw(screen)
+    round.draw(screen)
 
     pygame.display.flip()
 
