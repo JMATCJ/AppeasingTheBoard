@@ -112,6 +112,8 @@ class Round(pygame.sprite.Sprite):
             self.quarter = 1
             self.year += 1
         self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
+        for prompt in prompts:
+            prompt.selected = False
 
 
 class NextRound(pygame.sprite.Sprite):
@@ -176,6 +178,10 @@ meters.add(company_cash_meter, employee_morale_meter, employee_productivity_mete
 # Buttons group
 buttons = pygame.sprite.Group()
 buttons.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9, next_round)
+
+# Prompts group
+prompts = pygame.sprite.Group()
+prompts.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9)
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
