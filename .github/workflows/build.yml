@@ -1,0 +1,41 @@
+name: Build Windows & macOS Apps
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            TARGET: Windows
+            ARTIFACT_NAME: LDJam50_Windows
+            OUT_FILE_NAME: LDJam50.exe
+            CMD_BUILD: pyinstaller -F -w -n LDJam50 --add-data "assets;assets" src/main.py
+          - os: macos-latest
+            TARGET: macOS
+            ARTIFACT_NAME: LDJam50_macOS_x86
+            OUT_FILE_NAME: LDJam50.app
+            CMD_BUILD: pyinstaller -F -w -n LDJam50 --add-data "assets:assets" src/main.py
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Build ${{matrix.TARGET}} App
+        run: ${{matrix.CMD_BUILD}}
+      - name: Upload App
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.ARTIFACT_NAME}}
+          path: ./dist/${{matrix.OUT_FILE_NAME}}
