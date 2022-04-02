@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Tuple
 
 import pygame
-from pygame.locals import QUIT, MOUSEBUTTONUP
+from pygame.locals import QUIT, MOUSEBUTTONUP, MOUSEMOTION, K_UP, K_DOWN, KEYDOWN
 
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, 'frozen', False):
@@ -19,28 +19,31 @@ def randcolor() -> Tuple[int, int, int]:
 
 
 class Meter(pygame.sprite.Sprite):
-    def __init__(self, meter_pos: Tuple[int, int], meter_text: str,  meter_color: Tuple[int, int, int]):
+    def __init__(self, meter_pos: Tuple[int, int], meter_text: str, meter_image: str):
         super().__init__()
-        FONT = pygame.font.SysFont("comic sans ms", 24)
+        FONT = pygame.font.SysFont("verdana", 24)
         # Background meter surface
-        self.bg_surf = pygame.Surface((300, 25))
-        self.bg_surf.fill(meter_color)
+        self.bg_surf = pygame.image.load(ASSETS_DIR / "meters" / "background.png").convert()
 
         # Foreground meter surface
-        self.fg_surf = pygame.Surface((300, 25))
-        self.fg_surf.fill(randcolor())
+        self.fg_surf = pygame.image.load(ASSETS_DIR / "meters" / meter_image).convert()
 
         # Meter position
-        self.rect = self.bg_surf.get_rect(topleft=meter_pos)
+        self.bg_rect = self.bg_surf.get_rect(topleft=meter_pos)
+        self.fg_rect = self.fg_surf.get_rect(topleft=meter_pos)
     
         # Meter text
-        self.text = FONT.render(meter_text, True, randcolor())
-        self.bg_surf.blit(self.text, self.text.get_rect(center=(150, 12)))
-        self.fg_surf.blit(self.text, self.text.get_rect(center=(150, 12)))
+        self.text = FONT.render(meter_text, True, FONT_COLOR)
+        print(f"{meter_text}: w: {self.text.get_width()}, h: {self.text.get_height()}")
+        self.text_rect = self.text.get_rect(topleft=(meter_pos[0], meter_pos[1] + self.bg_rect.h))
+
+        # Value
+        self.value = 50  # [0-100], TODO: this should probably be a parameter eventually?
 
     def draw(self, screen):
-        screen.blit(self.bg_surf, self.rect)
-        screen.blit(self.fg_surf, self.rect)
+        screen.blit(self.bg_surf, self.bg_rect)
+        screen.blit(self.fg_surf, self.fg_rect, self.fg_surf.get_rect(w=self.fg_surf.get_width() * (self.value / 100)))
+        screen.blit(self.text, self.text_rect)
 
     def handle_click(self):
         pass
@@ -54,33 +57,35 @@ class Meter(pygame.sprite.Sprite):
 class Prompt(pygame.sprite.Sprite):
     def __init__(self, prompt_pos: Tuple[int, int], prompt_text: str):
         super().__init__()
-        FONT = pygame.font.SysFont("comic sans ms", 36)
+        FONT = pygame.font.SysFont("verdana", 36)
         # Unselected prompt button
-        self.surf = pygame.Surface((400, 180))
-        self.surf.fill(randcolor())  # (184, 127, 59)
-        
-        # Selected prompt button (different color to show selected)
-        self.selected_surf = pygame.Surface((400, 180))
-        self.selected_surf.fill(randcolor())
+        self.unselected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_up.png").convert()
+
+        # Hovered prompt button
+        self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_hover.png").convert()
+
+        # Selected prompt button
+        self.selected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_select.png").convert()
 
         # Prompt position
-        self.rect = self.surf.get_rect(topleft=prompt_pos)
+        self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
         
         # Prompt text attached to buttons
-        self.text = FONT.render(prompt_text, True, randcolor())
-        self.surf.blit(self.text, self.text.get_rect(center=(200, 90)))
-        self.selected_surf.blit(self.text, self.text.get_rect(center=(200, 90)))
+        # self.text = FONT.render(prompt_text, True, FONT_COLOR)
+        # self.surf.blit(self.text, self.text.get_rect(center=(200, 90)))
+        # self.selected_surf.blit(self.text, self.text.get_rect(center=(200, 90)))
 
         # Whether prompt is selected or not
+        self.hovered = False
         self.selected = False
-
 
     def draw(self, screen):
         if self.selected:
             screen.blit(self.selected_surf, self.rect)
+        elif self.hovered:
+            screen.blit(self.hovered_surf, self.rect)
         else:
-            screen.blit(self.surf, self.rect)
-
+            screen.blit(self.unselected_surf, self.rect)
 
     def handle_click(self):
         self.selected = not self.selected
@@ -131,12 +136,13 @@ SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 MOUSE_LEFT_CLICK = 1
+FONT_COLOR = (222, 222, 222)
 
 # Instantiate the Meter
-company_cash_meter = Meter((10, 10), "Company Cash", randcolor())  # (60, 182, 252)
-employee_morale_meter = Meter((330, 10), "Employee Morale", randcolor())  # (98, 242, 72)
-employee_productivity_meter = Meter((650, 10), "Employee Productivity", randcolor())  # (239, 62, 62)
-company_reputation_meter = Meter((970, 10), "Company Reputation", randcolor())  # (240, 247, 46)
+company_cash_meter = Meter((10, 385), "Company Cash", "cash.png")
+employee_morale_meter = Meter((10, 470), "Employee Morale", "morale.png")
+employee_productivity_meter = Meter((10, 555), "Employee Productivity", "productivity.png")
+company_reputation_meter = Meter((10, 640), "Company Reputation", "reputation.png")
 
 # Prompts
 prompt_1 = Prompt((10, 130), "one")
@@ -171,10 +177,21 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-        if event.type == MOUSEBUTTONUP and event.button == MOUSE_LEFT_CLICK:
+        elif event.type == MOUSEBUTTONUP and event.button == MOUSE_LEFT_CLICK:
             clicked_sprite = next((s for s in prompts if s.rect.collidepoint(event.pos)), None)
             if clicked_sprite is not None:
                 clicked_sprite.handle_click()
+        elif event.type == MOUSEMOTION:
+            for prompt in prompts:
+                prompt.hovered = prompt.rect.collidepoint(event.pos)
+        elif event.type == KEYDOWN:   # TEMP TESTING CODE
+            if event.key == K_UP:
+                for meter in meters:
+                    meter.value += 10
+            if event.key == K_DOWN:
+                for meter in meters:
+                    meter.value -= 10
+
     # Updating
     # TODO
 
@@ -187,14 +204,14 @@ while running:
         meter.draw(screen)
 
     # Draw prompt buttons to screen
-    for prompt in prompts:
-        prompt.draw(screen)
+    # for prompt in prompts:
+    #     prompt.draw(screen)
 
-    # Draw round indicator to screen
-    round.draw(screen)  
-    
-    # Draw next round button to screen
-    next_round.draw(screen)
+    # # Draw round indicator to screen
+    # round.draw(screen)
+    #
+    # # Draw next round button to screen
+    # next_round.draw(screen)
 
     pygame.display.flip()
 
