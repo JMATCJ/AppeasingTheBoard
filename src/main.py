@@ -34,7 +34,7 @@ class Meter(pygame.sprite.Sprite):
 
         # Meter text
         self.text = FONT.render(meter_text, True, FONT_COLOR)
-        print(f"{meter_text}: w: {self.text.get_width()}, h: {self.text.get_height()}")
+        # print(f"{meter_text}: w: {self.text.get_width()}, h: {self.text.get_height()}")
         self.text_rect = self.text.get_rect(topleft=(meter_pos[0], meter_pos[1] + self.bg_rect.h))
 
         # Value
@@ -48,6 +48,7 @@ class Meter(pygame.sprite.Sprite):
     def handle_click(self):
         pass
 
+
 # 1280 x 720 | 9 prompts
 # 400px wide
 # Leave 50px at the top for the meters? Leaves 670px
@@ -57,7 +58,7 @@ class Meter(pygame.sprite.Sprite):
 class Prompt(pygame.sprite.Sprite):
     def __init__(self, prompt_pos: Tuple[int, int], prompt_text: str):
         super().__init__()
-        FONT = pygame.font.SysFont("verdana", 36)
+        FONT = pygame.font.SysFont("verdana", 30)
         # Unselected prompt button
         self.unselected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_up.png").convert()
 
@@ -71,9 +72,7 @@ class Prompt(pygame.sprite.Sprite):
         self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
 
         # Prompt text attached to buttons
-        # self.text = FONT.render(prompt_text, True, FONT_COLOR)
-        # self.surf.blit(self.text, self.text.get_rect(center=(200, 90)))
-        # self.selected_surf.blit(self.text, self.text.get_rect(center=(200, 90)))
+        self.text = FONT.render(prompt_text, True, (51, 51, 51))
 
         # Whether prompt is selected or not
         self.hovered = False
@@ -86,6 +85,7 @@ class Prompt(pygame.sprite.Sprite):
             screen.blit(self.hovered_surf, self.rect)
         else:
             screen.blit(self.unselected_surf, self.rect)
+        screen.blit(self.text, self.text.get_rect(center=self.rect.center))
 
     def handle_click(self):
         self.selected = not self.selected
@@ -108,35 +108,33 @@ class Round(pygame.sprite.Sprite):
 
     def handle_click(self):
         self.quarter += 1
-        if (self.quarter >= 5):
+        if self.quarter >= 5:
             self.quarter = 1
             self.year += 1
         self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
 
-   # def handle_nextYear(self):
-    #    self.text =
 
 class NextRound(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        FONT = pygame.font.SysFont("comic sans ms", 24)
-        # Next round button
-        self.surf = pygame.Surface((150, 50))
-        self.surf.fill(randcolor())  # (255, 0, 212)
+        # Next round buttons
+        self.unhovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_up.png").convert()
+        self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_hover.png").convert()
 
         # Next round position
-        self.rect = self.surf.get_rect(topright=(1270, 60))
+        self.rect = self.unhovered_surf.get_rect(topright=(1270, 10))
 
-        # Next round text attached to button
-        self.text = FONT.render("Next Round", True, randcolor())
-        self.surf.blit(self.text, self.text.get_rect(center=(75, 25)))
+        # Whether or not the player is hovering over the button
+        self.hovered = False
 
     def draw(self, screen):
-        screen.blit(self.surf, self.rect)
+        if self.hovered:
+            screen.blit(self.hovered_surf, self.rect)
+        else:
+            screen.blit(self.unhovered_surf, self.rect)
 
     def handle_click(self):
         round.handle_click()
-
 
 
 # Main
@@ -156,15 +154,15 @@ employee_productivity_meter = Meter((10, 555), "Employee Productivity", "product
 company_reputation_meter = Meter((10, 640), "Company Reputation", "reputation.png")
 
 # Prompts
-prompt_1 = Prompt((10, 130), "one")
-prompt_2 = Prompt((430, 130), "two")
-prompt_3 = Prompt((850, 130), "three")
-prompt_4 = Prompt((10, 330), "four")
-prompt_5 = Prompt((430, 330), "five")
-prompt_6 = Prompt((850, 330), "six")
-prompt_7 = Prompt((10, 530), "seven")
-prompt_8 = Prompt((430, 530), "eight")
-prompt_9 = Prompt((850, 530), "nine")
+prompt_1 = Prompt((408, 169), "one")
+prompt_2 = Prompt((702, 169), "two")
+prompt_3 = Prompt((996, 169), "three")
+prompt_4 = Prompt((408, 356), "four")
+prompt_5 = Prompt((702, 356), "five")
+prompt_6 = Prompt((996, 356), "six")
+prompt_7 = Prompt((408, 543), "seven")
+prompt_8 = Prompt((702, 543), "eight")
+prompt_9 = Prompt((996, 543), "nine")
 
 # Round indicator
 round = Round(2022, 1)
