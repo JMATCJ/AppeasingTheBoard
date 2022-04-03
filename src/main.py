@@ -124,7 +124,7 @@ class NextRound(pygame.sprite.Sprite):
         self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_hover.png").convert()
 
         # Next round position
-        self.rect = self.unhovered_surf.get_rect(topright=(1270, 10))
+        self.rect = self.unhovered_surf.get_rect(topleft=(10, 75))
 
         # Whether or not the player is hovering over the button
         self.hovered = False
@@ -138,6 +138,19 @@ class NextRound(pygame.sprite.Sprite):
     def handle_click(self):
         round.handle_click()
 
+
+class TextArea(pygame.sprite.Sprite):
+    def __init__(self, position, value):
+        super().__init__()
+
+        self.text = ROUND_FONT.render(value, True, FONT_COLOR)
+        self.textArea = self.text.get_rect(topleft=position)
+
+    def draw(self, screen):
+        screen.blit(self.text, self.textArea)
+
+    def handle_click(self):
+        pass
 
 # Main
 pygame.init()
@@ -156,15 +169,21 @@ employee_productivity_meter = Meter((10, 555), "Employee Productivity", "product
 company_reputation_meter = Meter((10, 640), "Company Reputation", "reputation.png")
 
 # Prompts
-prompt_1 = Prompt((408, 169), "one")
-prompt_2 = Prompt((702, 169), "two")
-prompt_3 = Prompt((996, 169), "three")
-prompt_4 = Prompt((408, 356), "four")
+prompt_1 = Prompt((702, 10), "one")
+prompt_2 = Prompt((996, 10), "two")
+prompt_3 = Prompt((702, 169), "three")
+prompt_4 = Prompt((996, 169), "four")
 prompt_5 = Prompt((702, 356), "five")
 prompt_6 = Prompt((996, 356), "six")
-prompt_7 = Prompt((408, 543), "seven")
-prompt_8 = Prompt((702, 543), "eight")
-prompt_9 = Prompt((996, 543), "nine")
+prompt_7 = Prompt((702, 543), "seven")
+prompt_8 = Prompt((996, 543), "eight")
+
+# Text areas
+textArea_1 = TextArea((408, 10), "test")
+textArea_2 = TextArea((408, 169), "test")
+textArea_3 = TextArea((408, 365), "test")
+textArea_4 = TextArea((408, 543), "test")
+
 
 # Round indicator
 round = Round(2022, 1)
@@ -175,13 +194,18 @@ next_round = NextRound()
 # Create meter group
 meters = pygame.sprite.Group()
 meters.add(company_cash_meter, employee_morale_meter, employee_productivity_meter, company_reputation_meter)
+
 # Buttons group
 buttons = pygame.sprite.Group()
-buttons.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9, next_round)
+buttons.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, next_round)
 
 # Prompts group
 prompts = pygame.sprite.Group()
-prompts.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, prompt_9)
+prompts.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8)
+
+# Text group
+textAreas = pygame.sprite.Group()
+textAreas.add(textArea_1, textArea_2, textArea_3, textArea_4)
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
@@ -221,6 +245,10 @@ while running:
     # Draw prompt buttons to screen
     for button in buttons:
         button.draw(screen)
+
+    # Draw text area
+    for text in textAreas:
+        text.draw(screen)
 
     # # Draw round indicator to screen
     round.draw(screen)
