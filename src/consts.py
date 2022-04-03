@@ -12,6 +12,14 @@ METER_MORALE = "EmployeeMorale"
 METER_PROD = "EmployeeProductivity"
 METER_REP = "CompanyReputation"
 
+# Meters keys->shorthand
+METERS_SHORTHAND = {
+    METER_CASH: "Cash",
+    METER_MORALE: "Morale",
+    METER_PROD: "Productivity",
+    METER_REP: "Reputation"
+}
+
 # Scenarios keys
 SCENARIO_TEXT = "Scenario"
 CHOICE_ONE = "Choice1"

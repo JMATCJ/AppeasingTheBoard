@@ -51,7 +51,7 @@
     }
   },
   {
-    "Scenario": "Your sales team approaches you with an opertunity to do business with a lucrative customer, but they are a little controverial after some recent remarks...",
+    "Scenario": "Your sales team approaches you with an opportunity to do business with a lucrative customer, but they are a little controversial after some recent remarks...",
     "Choice1": "Money is money people will forget",
     "Choice2": "This company does not stand by their views",
     "SelectChoice1": {
@@ -85,8 +85,8 @@
     }
   },
   {
-    "Scenario": "You get the opertunity to hire an old manager back, they were hated by the staff but damn were they good at their job",
-    "Choice1": "Fear and tearney is the only way to rule, bring them back",
+    "Scenario": "You get the opportunity to hire an old manager back, they were hated by the staff but damn were they good at their job",
+    "Choice1": "Fear and tyranny is the only way to rule, bring them back",
     "Choice2": "Better to not face the music on this one",
     "SelectChoice1": {
       "CompanyCash": 0,
@@ -170,7 +170,7 @@
     }
   },
   {
-    "Scenario": "A controversial figure has endorced your organization, do you lean into it or keep quiet",
+    "Scenario": "A controversial figure has endorsed your organization, do you lean into it or keep quiet",
     "Choice1": "All publicity is good publicity",
     "Choice2": "The psycho can have their opinion, we don't need the blow back",
     "SelectChoice1": {
@@ -187,9 +187,9 @@
     }
   },
   {
-    "Scenario": "An employee died on the job. Implement new saftey reforms or blame them for the accident?",
+    "Scenario": "An employee died on the job. Implement new safety reforms or blame them for the accident?",
     "Choice1": "They should have been more careful, mistakes happen.",
-    "Choice2": "Saftey is key and we will invest in it",
+    "Choice2": "Safety is key and we will invest in it",
     "SelectChoice1": {
       "CompanyCash": 20,
       "EmployeeMorale": -20,
@@ -204,7 +204,7 @@
     }
   },
   {
-    "Scenario": "The execuitive team wants to use private jets...",
+    "Scenario": "The executive team wants to use private jets...",
     "Choice1": "They can fly economy like everyone else",
     "Choice2": "Cave to their demands",
     "SelectChoice1": {
@@ -214,15 +214,15 @@
       "CompanyReputation": 0
     },
     "SelectChoice2": {
-      "CompanyCash": 10,
-      "EmployeeMorale": -10,
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
       "EmployeeProductivity": 0,
       "CompanyReputation": 0
     }
   },
   {
     "Scenario": "Hippies and young people love ESG, but is it worth the cost",
-    "Choice1": "ESG is a fad that will pass, who cares about enviornmental social governance anyway",
+    "Choice1": "ESG is a fad that will pass, who cares about environmental social governance anyway",
     "Choice2": "The hippies have a point, times are changing",
     "SelectChoice1": {
       "CompanyCash": 10,
@@ -289,7 +289,7 @@
     }
   },
   {
-    "Scenario": "You find out people are on nonwork websites on company time",
+    "Scenario": "You find out people are on non-work websites on company time",
     "Choice1": "Block it, productivity is key",
     "Choice2": "Fine, as long as work gets done",
     "SelectChoice1": {
@@ -306,7 +306,7 @@
     }
   },
   {
-    "Scenario": "Environmentalist are protesting a facility for polution, clean up your act or silence the hippies",
+    "Scenario": "Environmentalist are protesting a facility for pollution, clean up your act or silence the hippies",
     "Choice1": "Invest in clean technology and stop dumping in the river",
     "Choice2": "Call the police and have the protesters tear gassed",
     "SelectChoice1": {
@@ -325,7 +325,7 @@
   {
     "Scenario": "There is talk of a union forming...",
     "Choice1": "BUST THE UNION",
-    "Choice2": "Hope the negoations with the union go well",
+    "Choice2": "Hope the negations with the union go well",
     "SelectChoice1": {
       "CompanyCash": 0,
       "EmployeeMorale": -10,

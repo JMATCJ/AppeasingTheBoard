@@ -1,5 +1,5 @@
 import pygame
-from typing import Any, Dict, Text, Tuple, Union
+from typing import Dict, Tuple, Union
 
 from consts import *
 
@@ -34,14 +34,11 @@ class Meter(pygame.sprite.Sprite):
         # level = self.font.render(f"{gamestate.meters[self.type]} / 100", True, FONT_COLOR)
         # screen.blit(level, level.get_rect(center=self.rect.center))
 
-    def handle_click(self, gamestate, pos: Tuple[int, int]):
-        pass
-
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, prompt_pos: Tuple[int, int], id: int, scenario_text: str, scenario_res: Dict[str, int]):
         super().__init__()
-        font = pygame.font.SysFont("verdana", 30)
+        font = pygame.font.SysFont("verdana", 20)
         self.id = id
         # Unselected prompt button
         self.unselected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_up.png").convert()
@@ -63,7 +60,7 @@ class Button(pygame.sprite.Sprite):
 
         # Scenario results
         self.res = scenario_res
-        self.res_text = font.render(' '.join(f"{k}: {v}" for k, v in self.res.items() if v != 0), True, FONT_COLOR)
+        self.res_text = font.render(' '.join(f"{METERS_SHORTHAND[k]}: {v}" for k, v in self.res.items() if v != 0), True, FONT_COLOR)
 
     def draw(self, screen, gamestate):
         if gamestate.button_states[self.id]:
@@ -73,9 +70,18 @@ class Button(pygame.sprite.Sprite):
         else:
             screen.blit(self.unselected_surf, self.rect)
         screen.blit(self.text, self.text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery - 30))
-        screen.blit(self.res_text, self.res_text.get_rect(center=self.rect.center))
-    def handle_click(self, gamestate, pos: Tuple[int, int]):
-        pass
+        screen.blit(self.res_text, self.res_text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery + 30))
+
+    def set_selected(self, gamestate, state):
+        if gamestate.button_states[self.id] != state:  # Only do work if we are actually changing our state
+            if gamestate.button_states[self.id]:  # If we were originally selected
+                gamestate.button_states[self.id] = False
+                for meter in gamestate.meters:
+                    gamestate.meters_delta[meter] -= self.res[meter]
+            else:
+                gamestate.button_states[self.id] = True
+                for meter in gamestate.meters:
+                    gamestate.meters_delta[meter] += self.res[meter]
 
 
 class ButtonGroup(pygame.sprite.Sprite):
@@ -93,12 +99,8 @@ class ButtonGroup(pygame.sprite.Sprite):
         self.right_button.draw(screen, gamestate)
 
     def handle_click(self, gamestate, pos: Tuple[int, int]):
-        if self.left_button.rect.collidepoint(pos):
-            gamestate.button_states[self.left_button.id] = True
-            gamestate.button_states[self.right_button.id] = False
-        elif self.right_button.rect.collidepoint(pos):
-            gamestate.button_states[self.right_button.id] = True
-            gamestate.button_states[self.left_button.id] = False
+        self.left_button.set_selected(gamestate, self.left_button.rect.collidepoint(pos))
+        self.right_button.set_selected(gamestate, self.right_button.rect.collidepoint(pos))
 
     def handle_hover(self, pos: Tuple[int, int]):
         self.left_button.hovered = self.left_button.rect.collidepoint(pos)
@@ -138,5 +140,52 @@ class TextArea(pygame.sprite.Sprite):
     def draw(self, screen, _):
         screen.blit(self.text, self.rect)
 
-    def handle_click(self, gamestate, pos: Tuple[int, int]):
-        pass
+
+class TextAreaWrapped(pygame.sprite.Sprite):
+    def __init__(self, area: pygame.Rect, value: str, font: pygame.font.Font, color: Tuple[int, int, int]):
+        super().__init__()
+        self.surf = pygame.Surface(area.size)
+        self.surf.set_colorkey((0,0,0))
+        self.rect = area
+        draw_text_wrapped(self.surf, value, color, pygame.Rect((0, 0), area.size), font)
+
+    def draw(self, screen, _):
+        screen.blit(self.surf, self.rect)
+
+
+# draw some text into an area of a surface
+# automatically wraps words
+# returns any text that didn't get blitted
+def draw_text_wrapped(surface, text, color, rect, font):
+    rect = pygame.Rect(rect)
+    y = rect.top
+    line_spacing = -2
+
+    # get the height of the font
+    font_height = font.size("Tg")[1]
+
+    while text:
+        i = 1
+
+        # determine if the row of text will be outside our area
+        if y + font_height > rect.bottom:
+            break
+
+        # determine maximum width of line
+        while font.size(text[:i])[0] < rect.width and i < len(text):
+            i += 1
+
+        # if we've wrapped the text, then adjust the wrap to the last word
+        if i < len(text):
+            i = text.rfind(" ", 0, i) + 1
+
+        # render the line and blit it to the surface
+        image = font.render(text[:i], True, color)
+
+        surface.blit(image, (rect.left, y))
+        y += font_height + line_spacing
+
+        # remove the text we just blitted
+        text = text[i:]
+
+    return text
