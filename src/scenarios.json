@@ -185,5 +185,192 @@
       "EmployeeProductivity": 0,
       "CompanyReputation": 10
     }
+  },
+  {
+    "Scenario": "An employee died on the job. Implement new saftey reforms or blame them for the accident?",
+    "Choice1": "They should have been more careful, mistakes happen.",
+    "Choice2": "Saftey is key and we will invest in it",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -20,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "The execuitive team wants to use private jets...",
+    "Choice1": "They can fly economy like everyone else",
+    "Choice2": "Cave to their demands",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Hippies and young people love ESG, but is it worth the cost",
+    "Choice1": "ESG is a fad that will pass, who cares about enviornmental social governance anyway",
+    "Choice2": "The hippies have a point, times are changing",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "An employee claims sexual harassment, how do you handle it?",
+    "Choice1": "Hush money, settle out of court",
+    "Choice2": "Attack their character, blame the victim",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Your team informs you they need more time to make a product safe, send it or risk losing the advantage",
+    "Choice1": "Full send, we need the money",
+    "Choice2": "Trust the team, they will do a good job",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "An employee has taken documents that would damage the companies reputation and wants payment for silence",
+    "Choice1": "Pay the money, they can't find out about the oil spills",
+    "Choice2": "We don't negotiate with terrorists",
+    "SelectChoice1": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -20
+    }
+  },
+  {
+    "Scenario": "You find out people are on nonwork websites on company time",
+    "Choice1": "Block it, productivity is key",
+    "Choice2": "Fine, as long as work gets done",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Environmentalist are protesting a facility for polution, clean up your act or silence the hippies",
+    "Choice1": "Invest in clean technology and stop dumping in the river",
+    "Choice2": "Call the police and have the protesters tear gassed",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -20
+    }
+  },
+  {
+    "Scenario": "There is talk of a union forming...",
+    "Choice1": "BUST THE UNION",
+    "Choice2": "Hope the negoations with the union go well",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A key supplier finds themself on a sanctions list...",
+    "Choice1": "Circumvent it and keep the supply lines open",
+    "Choice2": "Find a local supplier and eat the cost",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "You have to promote an employee, do you go with a better employee or meet a diversity quota",
+    "Choice1": "Go with the most qualified person",
+    "Choice2": "Fight your bias, go for the diversity hire",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
   }
 ]
