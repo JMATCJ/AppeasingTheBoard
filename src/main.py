@@ -1,11 +1,13 @@
 import enum
+import json
 import random
 from typing import Tuple
 
 import pygame
-from pygame.locals import QUIT, MOUSEBUTTONUP, MOUSEMOTION
-from sprites import ButtonGroup, Meter, NextRound, TextArea
+from pygame.locals import MOUSEBUTTONUP, MOUSEMOTION, QUIT
+
 from consts import *
+from sprites import ButtonGroup, Meter, NextRound, TextArea
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -31,9 +33,18 @@ class GameState:
             METER_PROD: 50,
             METER_REP: 50
         }
+        self.meters_delta = {  
+            METER_CASH: 0,
+            METER_MORALE: 0,
+            METER_PROD: 0,
+            METER_REP: 0
+        }
         self.button_states = [False] * 8
         self.screen_state = GameState.States.COMMON
         self.all_sprites = pygame.sprite.Group()
+        
+        with open("src/scenarios.json", "r") as fp:
+            self.scenarios = json.load(fp)
 
     def build_screen(self):
         self.all_sprites.empty()
@@ -44,18 +55,20 @@ class GameState:
             employee_productivity_meter = Meter((10, 555), METER_PROD, "Employee Productivity", "productivity.png")
             company_reputation_meter = Meter((10, 640), METER_REP, "Company Reputation", "reputation.png")
 
+            random.shuffle(self.scenarios)
+
             # Build ButtonGroups
-            button_group_1 = ButtonGroup((702, 10), 0, "one", "two")
-            button_group_2 = ButtonGroup((702, 169), 2, "three", "four")
-            button_group_3 = ButtonGroup((702, 356), 4, "five", "six")
-            button_group_4 = ButtonGroup((702, 543), 6, "seven", "eight")
+            button_group_1 = ButtonGroup((702, 10), 0, self.scenarios[0])
+            button_group_2 = ButtonGroup((702, 169), 2, self.scenarios[1])
+            button_group_3 = ButtonGroup((702, 356), 4, self.scenarios[2])
+            button_group_4 = ButtonGroup((702, 543), 6, self.scenarios[3])
 
             # Build TextAreas
-            round_text = TextArea((20, 10), f"Y{self.year} Q{self.quarter}")
-            prompt_1 = TextArea((408, 10), "test")
-            prompt_2 = TextArea((408, 169), "test")
-            prompt_3 = TextArea((408, 365), "test")
-            prompt_4 = TextArea((408, 543), "test")
+            round_text = TextArea((20, 10), f"Y{self.year} Q{self.quarter}", 36)
+            prompt_1 = TextArea((408, 10), self.scenarios[0][SCENARIO_TEXT], 24)
+            prompt_2 = TextArea((408, 169), self.scenarios[1][SCENARIO_TEXT], 24)
+            prompt_3 = TextArea((408, 365), self.scenarios[2][SCENARIO_TEXT], 24)
+            prompt_4 = TextArea((408, 543), self.scenarios[3][SCENARIO_TEXT], 24)
 
             # Build NextRound
             next_round = NextRound()
@@ -70,7 +83,18 @@ class GameState:
             pass  # TODO
 
     def transition_round(self):
-        # TODO: Actually change the meters here
+        for i, x in enumerate(self.button_states):
+            if x:
+                index = i // 2
+                button_chose = CHOICE_ONE_RESULTS if i % 2 == 0 else CHOICE_TWO_RESULTS
+                
+                for meter in self.meters:
+                    self.meters[meter] += self.scenarios[index][button_chose][meter]
+                    if self.meters[meter] > 100:
+                        self.meters[meter] = 100
+                    if self.meters[meter] < 0:
+                        self.meters[meter] = 0  
+
         self.button_states = [False] * 8
         self.quarter += 1
         if self.quarter >= 5:

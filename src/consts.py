@@ -7,10 +7,17 @@ MOUSE_LEFT_CLICK = 1
 FONT_COLOR = (222, 222, 222)
 
 # Meters keys
-METER_CASH = "cash"
-METER_MORALE = "morale"
-METER_PROD = "productivity"
-METER_REP = "reputation"
+METER_CASH = "CompanyCash"
+METER_MORALE = "EmployeeMorale"
+METER_PROD = "EmployeeProductivity"
+METER_REP = "CompanyReputation"
+
+# Scenarios keys
+SCENARIO_TEXT = "Scenario"
+CHOICE_ONE = "Choice1"
+CHOICE_TWO = "Choice2"
+CHOICE_ONE_RESULTS = "SelectChoice1"
+CHOICE_TWO_RESULTS = "SelectChoice2"
 
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, 'frozen', False):

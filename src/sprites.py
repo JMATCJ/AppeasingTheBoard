@@ -1,5 +1,5 @@
 import pygame
-from typing import Tuple
+from typing import Any, Dict, Text, Tuple, Union
 
 from consts import *
 
@@ -7,7 +7,7 @@ from consts import *
 class Meter(pygame.sprite.Sprite):
     def __init__(self, meter_pos: Tuple[int, int], meter_type: str, meter_text: str, meter_image: str):
         super().__init__()
-        font = pygame.font.SysFont("verdana", 24)
+        self.font = pygame.font.SysFont("verdana", 24)
         # Background meter surface
         self.bg_surf = pygame.image.load(ASSETS_DIR / "meters" / "background.png").convert()
 
@@ -18,8 +18,8 @@ class Meter(pygame.sprite.Sprite):
         self.rect = self.bg_surf.get_rect(topleft=meter_pos)
         self.fg_rect = self.fg_surf.get_rect(topleft=meter_pos)
 
-        # Meter text
-        self.text = font.render(meter_text, True, FONT_COLOR)
+        # Meter title
+        self.text = self.font.render(meter_text, True, FONT_COLOR)
         self.text_rect = self.text.get_rect(topleft=(meter_pos[0], meter_pos[1] + self.rect.h))
 
         # Meter type
@@ -31,13 +31,15 @@ class Meter(pygame.sprite.Sprite):
             w=self.fg_surf.get_width() * (gamestate.meters[self.type] / 100)
         ))
         screen.blit(self.text, self.text_rect)
+        # level = self.font.render(f"{gamestate.meters[self.type]} / 100", True, FONT_COLOR)
+        # screen.blit(level, level.get_rect(center=self.rect.center))
 
     def handle_click(self, gamestate, pos: Tuple[int, int]):
         pass
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, prompt_pos: Tuple[int, int], id: int, prompt_text: str):
+    def __init__(self, prompt_pos: Tuple[int, int], id: int, scenario_text: str, scenario_res: Dict[str, int]):
         super().__init__()
         font = pygame.font.SysFont("verdana", 30)
         self.id = id
@@ -54,10 +56,14 @@ class Button(pygame.sprite.Sprite):
         self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
 
         # Prompt text attached to buttons
-        self.text = font.render(prompt_text, True, (51, 51, 51))
+        self.text = font.render(scenario_text, True, (51, 51, 51))
 
         # Whether prompt is selected or not
         self.hovered = False
+
+        # Scenario results
+        self.res = scenario_res
+        self.res_text = font.render(' '.join(f"{k}: {v}" for k, v in self.res.items() if v != 0), True, FONT_COLOR)
 
     def draw(self, screen, gamestate):
         if gamestate.button_states[self.id]:
@@ -66,18 +72,18 @@ class Button(pygame.sprite.Sprite):
             screen.blit(self.hovered_surf, self.rect)
         else:
             screen.blit(self.unselected_surf, self.rect)
-        screen.blit(self.text, self.text.get_rect(center=self.rect.center))
-
+        screen.blit(self.text, self.text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery - 30))
+        screen.blit(self.res_text, self.res_text.get_rect(center=self.rect.center))
     def handle_click(self, gamestate, pos: Tuple[int, int]):
         pass
 
 
 class ButtonGroup(pygame.sprite.Sprite):
-    def __init__(self, group_pos: Tuple[int, int], left_button_id: int, left_text: str, right_text: str):
+    def __init__(self, group_pos: Tuple[int, int], left_button_id: int, scenarios: Dict[str, Union[str, Dict[str, int]]]):
         super().__init__()
-        self.left_button = Button(group_pos, left_button_id, left_text)
+        self.left_button = Button(group_pos, left_button_id, scenarios[CHOICE_ONE], scenarios[CHOICE_ONE_RESULTS])
         # TODO: Make this 294 not a magic number
-        self.right_button = Button((group_pos[0] + 294, group_pos[1]), left_button_id + 1, right_text)
+        self.right_button = Button((group_pos[0] + 294, group_pos[1]), left_button_id + 1, scenarios[CHOICE_TWO], scenarios[CHOICE_TWO_RESULTS])
 
         self.rect = pygame.Rect(group_pos, (self.left_button.rect.width + self.right_button.rect.width + 20,
                                             self.left_button.rect.height))
@@ -123,9 +129,9 @@ class NextRound(pygame.sprite.Sprite):
 
 
 class TextArea(pygame.sprite.Sprite):
-    def __init__(self, position, value):
+    def __init__(self, position, value, font_size):
         super().__init__()
-        font = pygame.font.SysFont("comic sans ms", 36)
+        font = pygame.font.SysFont("comic sans ms", font_size)
         self.text = font.render(value, True, FONT_COLOR)
         self.rect = self.text.get_rect(topleft=position)
 
