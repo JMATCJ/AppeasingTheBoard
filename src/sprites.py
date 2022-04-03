@@ -31,36 +31,35 @@ class Meter(pygame.sprite.Sprite):
             w=self.fg_surf.get_width() * (gamestate.meters[self.type] / 100)
         ))
         screen.blit(self.text, self.text_rect)
-        # level = self.font.render(f"{gamestate.meters[self.type]} / 100", True, FONT_COLOR)
-        # screen.blit(level, level.get_rect(center=self.rect.center))
+        level = self.font.render(f"{gamestate.meters[self.type]} / 100", True, FONT_COLOR)
+        screen.blit(level, level.get_rect(center=self.rect.center))
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, prompt_pos: Tuple[int, int], id: int, scenario_text: str, scenario_res: Dict[str, int]):
+    def __init__(self, button_pos: Tuple[int, int], id: int, scenario_text: str, scenario_res: Dict[str, int]):
         super().__init__()
-        font = pygame.font.SysFont("verdana", 20)
+        font = pygame.font.SysFont("verdana", 16)
         self.id = id
-        # Unselected prompt button
+        # The surfaces for the three button states
         self.unselected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_up.png").convert()
-
-        # Hovered prompt button
         self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_hover.png").convert()
-
-        # Selected prompt button
         self.selected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_select.png").convert()
 
-        # Prompt position
-        self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
+        # Position of button (same for all three states)
+        self.rect = self.unselected_surf.get_rect(topleft=button_pos)
 
         # Prompt text attached to buttons
-        self.text = font.render(scenario_text, True, (51, 51, 51))
+        self.text_rect = pygame.Rect(self.rect.left + 18, self.rect.top + 18, self.rect.w - 36, self.rect.h - 66)
+        self.text = TextAreaWrapped(self.text_rect, scenario_text, font, (51, 51, 51))
 
         # Whether prompt is selected or not
         self.hovered = False
 
         # Scenario results
         self.res = scenario_res
-        self.res_text = font.render(' '.join(f"{METERS_SHORTHAND[k]}: {v}" for k, v in self.res.items() if v != 0), True, FONT_COLOR)
+        self.res_text = font.render(
+            ' '.join(f"{METERS_SHORTHAND[k]}: {v}" for k, v in self.res.items() if v != 0), True, (255, 255, 255)
+        )
 
     def draw(self, screen, gamestate):
         if gamestate.button_states[self.id]:
@@ -69,8 +68,8 @@ class Button(pygame.sprite.Sprite):
             screen.blit(self.hovered_surf, self.rect)
         else:
             screen.blit(self.unselected_surf, self.rect)
-        screen.blit(self.text, self.text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery - 30))
-        screen.blit(self.res_text, self.res_text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery + 30))
+        self.text.draw(screen, gamestate)
+        screen.blit(self.res_text, self.res_text.get_rect(centerx=self.rect.centerx, centery=self.rect.centery + 45))
 
     def set_selected(self, gamestate, state):
         if gamestate.button_states[self.id] != state:  # Only do work if we are actually changing our state
@@ -88,8 +87,10 @@ class ButtonGroup(pygame.sprite.Sprite):
     def __init__(self, group_pos: Tuple[int, int], left_button_id: int, scenarios: Dict[str, Union[str, Dict[str, int]]]):
         super().__init__()
         self.left_button = Button(group_pos, left_button_id, scenarios[CHOICE_ONE], scenarios[CHOICE_ONE_RESULTS])
-        # TODO: Make this 294 not a magic number
-        self.right_button = Button((group_pos[0] + 294, group_pos[1]), left_button_id + 1, scenarios[CHOICE_TWO], scenarios[CHOICE_TWO_RESULTS])
+        self.right_button = Button(
+            (self.left_button.rect.right + 10, group_pos[1]),
+            left_button_id + 1, scenarios[CHOICE_TWO], scenarios[CHOICE_TWO_RESULTS]
+        )
 
         self.rect = pygame.Rect(group_pos, (self.left_button.rect.width + self.right_button.rect.width + 20,
                                             self.left_button.rect.height))
@@ -111,6 +112,7 @@ class NextRound(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Next round buttons
+        self.disabled_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_disabled.png").convert()
         self.unhovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_up.png").convert()
         self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_hover.png").convert()
 
@@ -120,11 +122,14 @@ class NextRound(pygame.sprite.Sprite):
         # Whether or not the player is hovering over the button
         self.hovered = self.rect.collidepoint(pygame.mouse.get_pos())
 
-    def draw(self, screen, _):
-        if self.hovered:
-            screen.blit(self.hovered_surf, self.rect)
+    def draw(self, screen, gamestate):
+        if gamestate.ready_for_next_round():
+            if self.hovered:
+                screen.blit(self.hovered_surf, self.rect)
+            else:
+                screen.blit(self.unhovered_surf, self.rect)
         else:
-            screen.blit(self.unhovered_surf, self.rect)
+            screen.blit(self.disabled_surf, self.rect)
 
     def handle_click(self, gamestate, _: Tuple[int, int]):
         gamestate.transition_round()
@@ -144,8 +149,7 @@ class TextArea(pygame.sprite.Sprite):
 class TextAreaWrapped(pygame.sprite.Sprite):
     def __init__(self, area: pygame.Rect, value: str, font: pygame.font.Font, color: Tuple[int, int, int]):
         super().__init__()
-        self.surf = pygame.Surface(area.size)
-        self.surf.set_colorkey((0,0,0))
+        self.surf = pygame.Surface(area.size, pygame.SRCALPHA)
         self.rect = area
         draw_text_wrapped(self.surf, value, color, pygame.Rect((0, 0), area.size), font)
 

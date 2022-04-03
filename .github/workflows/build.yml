@@ -20,7 +20,7 @@ jobs:
             TARGET: macOS
             ARTIFACT_NAME: LDJam50_macOS_x86
             OUT_FILE_NAME: LDJam50.app
-            CMD_BUILD: pyinstaller -F -w -n LDJam50 --add-data "assets:assets" src/main.py
+            CMD_BUILD: pyinstaller -F -w -n LDJam50 --osx-bundle-identifier "com.github.jmatcj.ld50" --add-data "assets:assets" src/main.py
     steps:
       - name: Checkout
         uses: actions/checkout@v3

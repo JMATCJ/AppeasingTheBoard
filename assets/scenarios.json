@@ -372,5 +372,22 @@
       "EmployeeProductivity": -10,
       "CompanyReputation": 0
     }
+  },
+  {
+    "Scenario": "A global supply shortage has caused tanking profits, how do we handle it?",
+    "Choice1": "Might have to let people go",
+    "Choice2": "Find ways to cut supply costs",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -20,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
   }
 ]

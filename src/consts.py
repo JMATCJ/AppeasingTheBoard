@@ -16,8 +16,8 @@ METER_REP = "CompanyReputation"
 METERS_SHORTHAND = {
     METER_CASH: "Cash",
     METER_MORALE: "Morale",
-    METER_PROD: "Productivity",
-    METER_REP: "Reputation"
+    METER_PROD: "Prod",
+    METER_REP: "Rep"
 }
 
 # Scenarios keys

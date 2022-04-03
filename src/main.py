@@ -8,9 +8,6 @@ from pygame.locals import MOUSEBUTTONUP, MOUSEMOTION, QUIT
 from consts import *
 from sprites import ButtonGroup, Meter, NextRound, TextArea, TextAreaWrapped
 
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
 
 class GameState:
     class States(enum.Enum):
@@ -49,21 +46,21 @@ class GameState:
             employee_productivity_meter = Meter((10, 555), METER_PROD, "Employee Productivity", "productivity.png")
             company_reputation_meter = Meter((10, 640), METER_REP, "Company Reputation", "reputation.png")
 
-            random.shuffle(self.scenarios)
+            four_scenarios = random.sample(self.scenarios, 4)
 
             # Build ButtonGroups
-            button_group_1 = ButtonGroup((702, 10), 0, self.scenarios[0])
-            button_group_2 = ButtonGroup((702, 169), 2, self.scenarios[1])
-            button_group_3 = ButtonGroup((702, 356), 4, self.scenarios[2])
-            button_group_4 = ButtonGroup((702, 543), 6, self.scenarios[3])
+            button_group_1 = ButtonGroup((712, 10), 0, four_scenarios[0])
+            button_group_2 = ButtonGroup((712, 189), 2, four_scenarios[1])
+            button_group_3 = ButtonGroup((712, 366), 4, four_scenarios[2])
+            button_group_4 = ButtonGroup((712, 543), 6, four_scenarios[3])
 
             # Build TextAreas
             round_text = TextArea((20, 10), f"Y{self.year} Q{self.quarter}", 36)
             prompt_font = pygame.font.SysFont("verdana", 20)
-            prompt_1 = TextAreaWrapped(pygame.Rect(408, 10, 275, button_group_1.rect.h), self.scenarios[0][SCENARIO_TEXT], prompt_font, FONT_COLOR)
-            prompt_2 = TextAreaWrapped(pygame.Rect(408, 169, 275, button_group_2.rect.h), self.scenarios[1][SCENARIO_TEXT], prompt_font, FONT_COLOR)
-            prompt_3 = TextAreaWrapped(pygame.Rect(408, 365, 275, button_group_3.rect.h), self.scenarios[2][SCENARIO_TEXT], prompt_font, FONT_COLOR)
-            prompt_4 = TextAreaWrapped(pygame.Rect(408, 543, 275, button_group_4.rect.h), self.scenarios[3][SCENARIO_TEXT], prompt_font, FONT_COLOR)
+            prompt_1 = TextAreaWrapped(pygame.Rect(380, 10, 300, button_group_1.rect.h), four_scenarios[0][SCENARIO_TEXT], prompt_font, FONT_COLOR)
+            prompt_2 = TextAreaWrapped(pygame.Rect(380, 189, 300, button_group_2.rect.h), four_scenarios[1][SCENARIO_TEXT], prompt_font, FONT_COLOR)
+            prompt_3 = TextAreaWrapped(pygame.Rect(380, 366, 300, button_group_3.rect.h), four_scenarios[2][SCENARIO_TEXT], prompt_font, FONT_COLOR)
+            prompt_4 = TextAreaWrapped(pygame.Rect(380, 543, 300, button_group_4.rect.h), four_scenarios[3][SCENARIO_TEXT], prompt_font, FONT_COLOR)
 
             # Build NextRound
             next_round = NextRound()
@@ -78,26 +75,34 @@ class GameState:
             pass  # TODO
 
     def transition_round(self):
-        # Update the meters and reset the deltas
-        for meter in self.meters:
-            # Clamp function: sorts the values, gets the one in the middle.
-            self.meters[meter] = sorted((0, self.meters[meter] + self.meters_delta[meter], 100))[1]
-            self.meters_delta[meter] = 0
-        # Reset all the button states
-        self.button_states = [False] * 8
-        # Move to the next quarter
-        self.quarter += 1
-        if self.quarter >= 5:
-            self.quarter = 1
-            self.year += 1
-        # TODO: Determine if we change screen state here
-        # Setup the next screen
-        self.build_screen()
+        if self.ready_for_next_round():
+            # Update the meters and reset the deltas
+            for meter in self.meters:
+                # Clamp function: sorts the values, gets the one in the middle.
+                self.meters[meter] = sorted((0, self.meters[meter] + self.meters_delta[meter], 100))[1]
+                self.meters_delta[meter] = 0
+            # Reset all the button states
+            self.button_states = [False] * 8
+            # Move to the next quarter
+            self.quarter += 1
+            if self.quarter >= 5:
+                self.quarter = 1
+                self.year += 1
+            # TODO: Determine if we change screen state here
+            # Setup the next screen
+            self.build_screen()
+
+    def ready_for_next_round(self) -> bool:
+        return self.button_states.count(True) == 4
 
     def draw(self, screen):
         for sprite in self.all_sprites:
             sprite.draw(screen, self)
 
+
+# Init pygame and the screen
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Make the game
 game = GameState()
@@ -105,6 +110,11 @@ game.build_screen()
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
+
+# Setup background music
+pygame.mixer.music.load(ASSETS_DIR / "sounds" / "background.ogg")
+pygame.mixer.music.set_volume(0.20)  # TODO: Play with this
+pygame.mixer.music.play(loops=-1)  # Loop forever
 
 running = True
 while running:
