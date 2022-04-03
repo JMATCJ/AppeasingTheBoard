@@ -1,16 +1,14 @@
+import enum
 import random
-import sys
-from pathlib import Path
 from typing import Tuple
 
 import pygame
-from pygame.locals import QUIT, MOUSEBUTTONUP, MOUSEMOTION, K_UP, K_DOWN, KEYDOWN
+from pygame.locals import QUIT, MOUSEBUTTONUP, MOUSEMOTION
+from sprites import ButtonGroup, Meter, NextRound, TextArea
+from consts import *
 
-# Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
-if getattr(sys, 'frozen', False):
-    ASSETS_DIR = Path(sys._MEIPASS) / "assets"
-else:
-    ASSETS_DIR = Path("assets")
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
 def randcolor() -> Tuple[int, int, int]:
@@ -18,194 +16,77 @@ def randcolor() -> Tuple[int, int, int]:
     return random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
 
 
-class Meter(pygame.sprite.Sprite):
-    def __init__(self, meter_pos: Tuple[int, int], meter_text: str, meter_image: str):
-        super().__init__()
-        FONT = pygame.font.SysFont("verdana", 24)
-        # Background meter surface
-        self.bg_surf = pygame.image.load(ASSETS_DIR / "meters" / "background.png").convert()
+class GameState:
+    class States(enum.Enum):
+        COMMON = enum.auto()
+        RAND_EVENT = enum.auto()
+        GAME_OVER = enum.auto()
 
-        # Foreground meter surface
-        self.fg_surf = pygame.image.load(ASSETS_DIR / "meters" / meter_image).convert()
+    def __init__(self):
+        self.year = 1
+        self.quarter = 1
+        self.meters = {  # TODO: Different starting values based on difficulty
+            METER_CASH: 50,
+            METER_MORALE: 50,
+            METER_PROD: 50,
+            METER_REP: 50
+        }
+        self.button_states = [False] * 8
+        self.screen_state = GameState.States.COMMON
+        self.all_sprites = pygame.sprite.Group()
 
-        # Meter position
-        self.bg_rect = self.bg_surf.get_rect(topleft=meter_pos)
-        self.fg_rect = self.fg_surf.get_rect(topleft=meter_pos)
+    def build_screen(self):
+        self.all_sprites.empty()
+        if self.screen_state == GameState.States.COMMON:
+            # Build meters
+            company_cash_meter = Meter((10, 385), METER_CASH, "Company Cash", "cash.png")
+            employee_morale_meter = Meter((10, 470), METER_MORALE, "Employee Morale", "morale.png")
+            employee_productivity_meter = Meter((10, 555), METER_PROD, "Employee Productivity", "productivity.png")
+            company_reputation_meter = Meter((10, 640), METER_REP, "Company Reputation", "reputation.png")
 
-        # Meter text
-        self.text = FONT.render(meter_text, True, FONT_COLOR)
-        # print(f"{meter_text}: w: {self.text.get_width()}, h: {self.text.get_height()}")
-        self.text_rect = self.text.get_rect(topleft=(meter_pos[0], meter_pos[1] + self.bg_rect.h))
+            # Build ButtonGroups
+            button_group_1 = ButtonGroup((702, 10), 0, "one", "two")
+            button_group_2 = ButtonGroup((702, 169), 2, "three", "four")
+            button_group_3 = ButtonGroup((702, 356), 4, "five", "six")
+            button_group_4 = ButtonGroup((702, 543), 6, "seven", "eight")
 
-        # Value
-        self.value = 50  # [0-100], TODO: this should probably be a parameter eventually?
+            # Build TextAreas
+            round_text = TextArea((20, 10), f"Y{self.year} Q{self.quarter}")
+            prompt_1 = TextArea((408, 10), "test")
+            prompt_2 = TextArea((408, 169), "test")
+            prompt_3 = TextArea((408, 365), "test")
+            prompt_4 = TextArea((408, 543), "test")
 
-    def draw(self, screen):
-        screen.blit(self.bg_surf, self.bg_rect)
-        screen.blit(self.fg_surf, self.fg_rect, self.fg_surf.get_rect(w=self.fg_surf.get_width() * (self.value / 100)))
-        screen.blit(self.text, self.text_rect)
+            # Build NextRound
+            next_round = NextRound()
 
-    def handle_click(self):
-        pass
+            # Add all sprites to the main group
+            self.all_sprites.add(company_cash_meter, employee_morale_meter, employee_productivity_meter,
+                                 company_reputation_meter, button_group_1, button_group_2, button_group_3,
+                                 button_group_4, round_text, prompt_1, prompt_2, prompt_3, prompt_4, next_round)
+        elif self.screen_state == GameState.States.RAND_EVENT:
+            pass  # TODO
+        elif self.screen_state == GameState.States.GAME_OVER:
+            pass  # TODO
 
-
-# 1280 x 720 | 9 prompts
-# 400px wide
-# Leave 50px at the top for the meters? Leaves 670px
-# Leave 100px after that for status next and next round button? Leaves 570px
-
-
-class Prompt(pygame.sprite.Sprite):
-    def __init__(self, prompt_pos: Tuple[int, int], prompt_text: str):
-        super().__init__()
-        FONT = pygame.font.SysFont("verdana", 30)
-        # Unselected prompt button
-        self.unselected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_up.png").convert()
-
-        # Hovered prompt button
-        self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_hover.png").convert()
-
-        # Selected prompt button
-        self.selected_surf = pygame.image.load(ASSETS_DIR / "buttons" / "prompt_select.png").convert()
-
-        # Prompt position
-        self.rect = self.unselected_surf.get_rect(topleft=prompt_pos)
-
-        # Prompt text attached to buttons
-        self.text = FONT.render(prompt_text, True, (51, 51, 51))
-
-        # Whether prompt is selected or not
-        self.hovered = False
-        self.selected = False
-
-    def draw(self, screen):
-        if self.selected:
-            screen.blit(self.selected_surf, self.rect)
-        elif self.hovered:
-            screen.blit(self.hovered_surf, self.rect)
-        else:
-            screen.blit(self.unselected_surf, self.rect)
-        screen.blit(self.text, self.text.get_rect(center=self.rect.center))
-
-    def handle_click(self):
-        self.selected = not self.selected
-
-
-class Round(pygame.sprite.Sprite):
-    def __init__(self, year, quarter):
-        super().__init__()
-        self.year = year
-        self.quarter = quarter
-
-        # Rendering round text
-        self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
-
-        # Round text position
-        self.rect = self.round_ind.get_rect(topleft=(20, 10))
-
-    def draw(self, screen):
-        screen.blit(self.round_ind, self.rect)
-
-    def handle_click(self):
+    def transition_round(self):
+        # TODO: Actually change the meters here
+        self.button_states = [False] * 8
         self.quarter += 1
         if self.quarter >= 5:
             self.quarter = 1
             self.year += 1
-        self.round_ind = ROUND_FONT.render(f"{self.year} Q{self.quarter}", True, FONT_COLOR)  # (111, 38, 166)
-        for prompt in prompts:
-            prompt.selected = False
-
-
-class NextRound(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        # Next round buttons
-        self.unhovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_up.png").convert()
-        self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / "nextquarter_hover.png").convert()
-
-        # Next round position
-        self.rect = self.unhovered_surf.get_rect(topleft=(10, 75))
-
-        # Whether or not the player is hovering over the button
-        self.hovered = False
+        # TODO: Determine if we change screen state here
+        self.build_screen()
 
     def draw(self, screen):
-        if self.hovered:
-            screen.blit(self.hovered_surf, self.rect)
-        else:
-            screen.blit(self.unhovered_surf, self.rect)
-
-    def handle_click(self):
-        round.handle_click()
+        for sprite in self.all_sprites:
+            sprite.draw(screen, self)
 
 
-class TextArea(pygame.sprite.Sprite):
-    def __init__(self, position, value):
-        super().__init__()
-
-        self.text = ROUND_FONT.render(value, True, FONT_COLOR)
-        self.textArea = self.text.get_rect(topleft=position)
-
-    def draw(self, screen):
-        screen.blit(self.text, self.textArea)
-
-    def handle_click(self):
-        pass
-
-# Main
-pygame.init()
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-MOUSE_LEFT_CLICK = 1
-FONT_COLOR = (222, 222, 222)
-ROUND_FONT = pygame.font.SysFont("comic sans ms", 36)
-
-
-# Instantiate the Meter
-company_cash_meter = Meter((10, 385), "Company Cash", "cash.png")
-employee_morale_meter = Meter((10, 470), "Employee Morale", "morale.png")
-employee_productivity_meter = Meter((10, 555), "Employee Productivity", "productivity.png")
-company_reputation_meter = Meter((10, 640), "Company Reputation", "reputation.png")
-
-# Prompts
-prompt_1 = Prompt((702, 10), "one")
-prompt_2 = Prompt((996, 10), "two")
-prompt_3 = Prompt((702, 169), "three")
-prompt_4 = Prompt((996, 169), "four")
-prompt_5 = Prompt((702, 356), "five")
-prompt_6 = Prompt((996, 356), "six")
-prompt_7 = Prompt((702, 543), "seven")
-prompt_8 = Prompt((996, 543), "eight")
-
-# Text areas
-textArea_1 = TextArea((408, 10), "test")
-textArea_2 = TextArea((408, 169), "test")
-textArea_3 = TextArea((408, 365), "test")
-textArea_4 = TextArea((408, 543), "test")
-
-
-# Round indicator
-round = Round(2022, 1)
-
-# Next Round
-next_round = NextRound()
-
-# Create meter group
-meters = pygame.sprite.Group()
-meters.add(company_cash_meter, employee_morale_meter, employee_productivity_meter, company_reputation_meter)
-
-# Buttons group
-buttons = pygame.sprite.Group()
-buttons.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8, next_round)
-
-# Prompts group
-prompts = pygame.sprite.Group()
-prompts.add(prompt_1, prompt_2, prompt_3, prompt_4, prompt_5, prompt_6, prompt_7, prompt_8)
-
-# Text group
-textAreas = pygame.sprite.Group()
-textAreas.add(textArea_1, textArea_2, textArea_3, textArea_4)
+# Make the game
+game = GameState()
+game.build_screen()
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
@@ -217,42 +98,24 @@ while running:
         if event.type == QUIT:
             running = False
         elif event.type == MOUSEBUTTONUP and event.button == MOUSE_LEFT_CLICK:
-            clicked_sprite = next((s for s in buttons if s.rect.collidepoint(event.pos)), None)
-            if clicked_sprite is not None:
-                clicked_sprite.handle_click()
+            clicked_sprite = next((s for s in game.all_sprites if s.rect.collidepoint(event.pos)), None)
+            if clicked_sprite is not None and hasattr(clicked_sprite, "handle_click"):
+                clicked_sprite.handle_click(game, event.pos)
         elif event.type == MOUSEMOTION:
-            for button in buttons:
-                button.hovered = button.rect.collidepoint(event.pos)
-        elif event.type == KEYDOWN:   # TEMP TESTING CODE
-            if event.key == K_UP:
-                for meter in meters:
-                    meter.value += 10
-            if event.key == K_DOWN:
-                for meter in meters:
-                    meter.value -= 10
-
-    # Updating
-    # TODO
+            for sprite in game.all_sprites:
+                if hasattr(sprite, "hovered"):
+                    sprite.hovered = sprite.rect.collidepoint(event.pos)
+                elif hasattr(sprite, "handle_hover"):
+                    sprite.handle_hover(event.pos)
 
     # Drawing
     # Draw everything gray
     screen.fill((100, 100, 100))
 
-    # Draw ("blit") the meters to the screen, position them with their rect
-    for meter in meters:
-        meter.draw(screen)
+    # Draw...everything
+    game.draw(screen)
 
-    # Draw prompt buttons to screen
-    for button in buttons:
-        button.draw(screen)
-
-    # Draw text area
-    for text in textAreas:
-        text.draw(screen)
-
-    # # Draw round indicator to screen
-    round.draw(screen)
-
+    # Show the frame
     pygame.display.flip()
 
     # Wait until next frame
