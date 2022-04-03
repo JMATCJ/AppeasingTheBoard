@@ -35,8 +35,8 @@
   },
   {
     "Scenario": "Fire destroys a facility but you were looking at closing it anyway. A blessing in disguise?",
-    "Choice1": "Rebuild the facility",
-    "Choice2": "Collect the insurance money and close it for good",
+    "Choice1": "Collect the insurance money and close it for good",
+    "Choice2": "Rebuild the facility",
     "SelectChoice1": {
       "CompanyCash": 20,
       "EmployeeMorale": -10,
@@ -388,6 +388,57 @@
       "EmployeeMorale": 0,
       "EmployeeProductivity": 0,
       "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A ransomware attack has his your company's computers, and you're without a recent backup. What do you do?",
+    "Choice1": "Cough up the ransom, you can't risk that progress",
+    "Choice2": "Don't give those script kiddies any money, hope your backup is good enough",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "An employee is making unreasonable demands to stick around, but no one else knows how to do their job.",
+    "Choice1": "They're the best you got, cough up the dough",
+    "Choice2": "I'm sure you can find someone to replace them",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "In order to dodge some recent bad press, someone suggests a re-branding",
+    "Choice1": "If it worked for Facebook...",
+    "Choice2": "There's no such thing as bad press",
+    "SelectChoice1": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
     }
   }
 ]
