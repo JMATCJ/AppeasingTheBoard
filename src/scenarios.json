@@ -1,0 +1,39 @@
+{
+    "Scenario": "Problmatic employees are hurting morale, do you fire them?", 
+    "Choice1": "Fire them to remove the toxic behavior, but lose their productivity", 
+    "Choice2", "Keep them and piss off the team",
+    
+    "SelectChoice1":[
+        "CompanyCash":"+0"
+        "EmployeeMorale":"+10"
+        "EmployeeProductivity":"-10"
+        "CompanyReputation":"+0"
+    ],
+
+    "SelectChoice2":[
+        "CompanyCash":"+0"
+        "EmployeeMorale":"-10"
+        "EmployeeProductivity":"+10"
+        "CompanyReputation":"+0"
+    ]
+},
+
+{
+    "Scenario": "Your company had a record quarter, do you issue bonuses or pay dividens?", 
+    "Choice1": "Pay bonuses, let the working man taste their labor", 
+    "Choice2", "Pay dividens, let the rich get richer, and the rich are my friends",
+    
+    "SelectChoice1":[
+        "CompanyCash":"+0"
+        "EmployeeMorale":"+20"
+        "EmployeeProductivity":"+0"
+        "CompanyReputation":"+0"
+    ],
+
+    "SelectChoice2":[
+        "CompanyCash":"+0"
+        "EmployeeMorale":"+0"
+        "EmployeeProductivity":"+0"
+        "CompanyReputation":"+10"
+    ]
+}
