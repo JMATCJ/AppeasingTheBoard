@@ -32,5 +32,158 @@
       "EmployeeProductivity": 0,
       "CompanyReputation": 10
     }
+  },
+  {
+    "Scenario": "Fire destroys a facility but you were looking at closing it anyway. A blessing in disguise?",
+    "Choice1": "Rebuild the facility",
+    "Choice2": "Collect the insurance money and close it for good",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Your sales team approaches you with an opertunity to do business with a lucrative customer, but they are a little controverial after some recent remarks...",
+    "Choice1": "Money is money people will forget",
+    "Choice2": "This company does not stand by their views",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "Your finance team has found a tax loophole they can exploit, gotta love the bean counters",
+    "Choice1": "Take the loophole, it wouldn't be there if you couldn't use it.",
+    "Choice2": "Pay your taxes like a simp",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "You get the opertunity to hire an old manager back, they were hated by the staff but damn were they good at their job",
+    "Choice1": "Fear and tearney is the only way to rule, bring them back",
+    "Choice2": "Better to not face the music on this one",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "The government gets wind of some less than ethical business practices and have asked you to come answer some questions. Do you comply?",
+    "Choice1": "Best not to mess with the government",
+    "Choice2": "Tell the lawyers to tie it up, they need to earn their pay",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Theres some left over money in the budget, throw a crazy party for the staff or pocket it?",
+    "Choice1": "Party hard",
+    "Choice2": "More money for me",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "The board sent in a team of auditors to look at the books, do you risk them taking an honest look?",
+    "Choice1": "Cook the books, things are great",
+    "Choice2": "Let them see, we have nothing to hide",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "A new acquisition did not pan out, close up shop and save what you can or limp along",
+    "Choice1": "Gut it and forget",
+    "Choice2": "Suck it up and keep it afloat",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A controversial figure has endorced your organization, do you lean into it or keep quiet",
+    "Choice1": "All publicity is good publicity",
+    "Choice2": "The psycho can have their opinion, we don't need the blow back",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
   }
 ]
