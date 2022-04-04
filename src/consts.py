@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -29,10 +29,10 @@ CHOICE_TWO_RESULTS = "SelectChoice2"
 
 # When your chance of being pushed out goes > 0
 METER_CUTOFFS = {
-    METER_CASH: 80,
-    METER_MORALE: 60,
-    METER_PROD: 70,
-    METER_REP: 70
+    METER_CASH: 50,  # 80
+    METER_MORALE: 50,  # 60
+    METER_PROD: 50,  # 70
+    METER_REP: 50  # 70
 }
 
 # Increase in chance of being fired
@@ -42,6 +42,8 @@ FIRE_STEPS = {
     METER_PROD: 70 / METER_CUTOFFS[METER_PROD],
     METER_REP: 60 / METER_CUTOFFS[METER_REP]
 }
+
+TITLE_SCREEN_INSTRUCTIONS = "You are a CEO tasked with keeping your company afloat. You will be given prompts and choices that affect your company's cash, morale, productivity, and reputation. Pump up your numbers, we don't need rookie numbers here."
 
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, 'frozen', False):
