@@ -231,6 +231,16 @@ class MuteButton(Sprite):
         gamestate.toggle_mute()
 
 
+class Title(Sprite):
+    def __init__(self):
+        super().__init__()
+        self.surf = image.load(ASSETS_DIR / "title.png").convert_alpha()
+        self.rect = self.surf.get_rect()
+
+    def draw(self, screen, _):
+        screen.blit(self.surf, self.rect)
+
+
 class TextArea(Sprite):
     # Besides value and font_size, takes a third parameter for its position, which must be keyworded.
     # Either specify "topleft" or "center", followed by the tuple position.

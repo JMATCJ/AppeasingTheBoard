@@ -7,12 +7,13 @@ from pygame.event import Event
 from pygame.locals import MOUSEBUTTONUP, MOUSEMOTION, QUIT
 
 from consts import *
-from sprites import GenericButton, Meter, MuteButton, NextRound, Prompt, TextArea, TextAreaWrapped
+from sprites import GenericButton, Meter, MuteButton, NextRound, Prompt, TextArea, TextAreaWrapped, Title
 
 
 class GameState:
     class States(enum.Enum):
         TITLE_SCREEN = enum.auto()
+        INSTRUCTIONS = enum.auto()
         GAMEPLAY = enum.auto()
         GAME_OVER = enum.auto()
 
@@ -52,12 +53,23 @@ class GameState:
     def build_screen(self):
         self.all_sprites.empty()
         if self.screen_state == GameState.States.TITLE_SCREEN:
-            title = TextArea("Box Explorer 2: Home", 72, center=(640, 125))
-            title_font = pygame.font.SysFont(VERDANA, 28)
+            title = Title()
+            start_game_button = GenericButton((528, 600), "play",
+                                              lambda: self.transition_state(GameState.States.INSTRUCTIONS))
+            mute_button = MuteButton((10, 10))
+
+            self.all_sprites.add(title, start_game_button, mute_button)
+
+            if not self.muted and not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play(loops=-1)  # Loop forever
+        elif self.screen_state == GameState.States.INSTRUCTIONS:
+            instructions_font = pygame.font.SysFont(VERDANA, 28)
+            title = TextArea("Instructions", 72, center=(640, 125))
             instructions = TextAreaWrapped(pygame.Rect(280, 200, 720, 350), TITLE_SCREEN_INSTRUCTIONS,
-                                           title_font, FONT_COLOR)
-            start_game_button = GenericButton((528, 550), "play",
+                                           instructions_font, FONT_COLOR)
+            start_game_button = GenericButton((528, 600), "play",
                                               lambda: self.transition_state(GameState.States.GAMEPLAY))
+
             mute_button = MuteButton((10, 10))
             self.all_sprites.add(title, instructions, start_game_button, mute_button)
 
@@ -159,6 +171,8 @@ class GameState:
 # Init pygame and the screen
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+icon = pygame.image.load(ASSETS_DIR / "icon.png")
+pygame.display.set_icon(icon)
 
 # Setup background music
 pygame.mixer.music.load(ASSETS_DIR / "sounds" / "background.ogg")
