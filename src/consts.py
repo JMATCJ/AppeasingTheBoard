@@ -40,10 +40,10 @@ CHOICE_TWO_RESULTS = "SelectChoice2"
 
 # When your chance of being pushed out goes > 0
 METER_CUTOFFS = {
-    METER_CASH: 50,    # 80
+    METER_CASH: 70,    # 80
     METER_MORALE: 50,  # 60
-    METER_PROD: 50,    # 70
-    METER_REP: 50      # 70
+    METER_PROD: 60,    # 70
+    METER_REP: 60      # 70
 }
 
 # Increase in chance of being fired
@@ -56,8 +56,11 @@ FIRE_STEPS = {
 
 TITLE_SCREEN_INSTRUCTIONS = "You are a CEO tasked with keeping your company afloat. You will be given prompts and \
 choices that affect your company's cash, morale, productivity, and reputation. At the end of each year, your Board of \
-Directors will evaluate your performance and decide on whether or not to keep you. Learn what makes them tick, and \
-pump up your numbers, we don't need rookie numbers here."
+Directors will evaluate your performance and decide on whether or not to keep you. For your first year, the Board will \
+go easier on you, but don't make the same mistake in the second year. Learn what makes them tick, and pump up your \
+numbers, we don't need rookie numbers."
+GAME_OVER_FLAVORTEXT = "The Board of Directors was not impressed by your performance, and they have relieved you of \
+your duties."
 
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, "frozen", False):

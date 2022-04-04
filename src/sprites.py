@@ -14,6 +14,11 @@ button_click_sound = Sound(ASSETS_DIR / "sounds" / "click.ogg")
 button_click_sound.set_volume(0.3)
 
 
+def play_click_sound(gamestate):
+    if not gamestate.muted:
+        button_click_sound.play()
+
+
 class Meter(Sprite):
     def __init__(self, meter_pos: Tuple[int, int], meter_type: str, meter_text: str, meter_image: str):
         super().__init__()
@@ -139,7 +144,7 @@ class Prompt(Sprite):
         if self.buttons_rect.collidepoint(pos):
             self.left_button.set_selected(gamestate, self.left_button.rect.collidepoint(pos))
             self.right_button.set_selected(gamestate, self.right_button.rect.collidepoint(pos))
-            button_click_sound.play()
+            play_click_sound(gamestate)
 
     def handle_hover(self, pos: Tuple[int, int]):
         self.left_button.hovered = self.left_button.rect.collidepoint(pos)
@@ -169,7 +174,7 @@ class NextRound(Sprite):
 
     def handle_click(self, gamestate, _: Tuple[int, int]):
         if gamestate.ready_for_next_round():  # Only move on if we've made a choice for each prompt
-            button_click_sound.play()
+            play_click_sound(gamestate)
             gamestate.transition_round()
 
 
@@ -191,9 +196,39 @@ class GenericButton(Sprite):
         else:
             screen.blit(self.unhovered_surf, self.rect)
 
-    def handle_click(self, _1, _2: Tuple[int, int]):
-        button_click_sound.play()
+    def handle_click(self, gamestate, _: Tuple[int, int]):
+        play_click_sound(gamestate)
         self.click_func()
+
+
+class MuteButton(Sprite):
+    def __init__(self, button_pos: Tuple[int, int]):
+        super().__init__()
+
+        # Button states
+        self.muted_unhovered_surf = image.load(ASSETS_DIR / "buttons" / "soundoff_up.png").convert()
+        self.muted_hovered_surf = image.load(ASSETS_DIR / "buttons" / "soundoff_hover.png").convert()
+        self.unmuted_unhovered_surf = image.load(ASSETS_DIR / "buttons" / "soundon_up.png").convert()
+        self.unmuted_hovered_surf = image.load(ASSETS_DIR / "buttons" / "soundon_hover.png").convert()
+
+        self.rect = self.muted_unhovered_surf.get_rect(topleft=button_pos)  # Button position
+        self.hovered = self.rect.collidepoint(mouse.get_pos())  # Whether or not the player is hovering over the button
+
+    def draw(self, screen, gamestate):
+        if gamestate.muted:
+            if self.hovered:
+                screen.blit(self.muted_hovered_surf, self.rect)
+            else:
+                screen.blit(self.muted_unhovered_surf, self.rect)
+        else:
+            if self.hovered:
+                screen.blit(self.unmuted_hovered_surf, self.rect)
+            else:
+                screen.blit(self.unmuted_unhovered_surf, self.rect)
+
+    def handle_click(self, gamestate, _: Tuple[int, int]):
+        play_click_sound(gamestate)
+        gamestate.toggle_mute()
 
 
 class TextArea(Sprite):

@@ -238,20 +238,20 @@
     }
   },
   {
-    "Scenario": "An employee claims sexual harassment, how do you handle it?",
-    "Choice1": "Hush money, settle out of court",
-    "Choice2": "Attack their character, blame the victim",
+    "Scenario": "You overhear comments from one of your executives that don't align with company values",
+    "Choice1": "You didn't hear anything...",
+    "Choice2": "Enroll them in sensitivity training",
     "SelectChoice1": {
-      "CompanyCash": -10,
-      "EmployeeMorale": 0,
-      "EmployeeProductivity": 0,
-      "CompanyReputation": 0
-    },
-    "SelectChoice2": {
       "CompanyCash": 0,
       "EmployeeMorale": -10,
       "EmployeeProductivity": 0,
       "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
     }
   },
   {
@@ -308,7 +308,7 @@
   {
     "Scenario": "Environmentalist are protesting a facility for pollution, clean up your act or silence the hippies",
     "Choice1": "Invest in clean technology and stop dumping in the river",
-    "Choice2": "Call the police and have the protesters tear gassed",
+    "Choice2": "Call the police and have the protesters removed",
     "SelectChoice1": {
       "CompanyCash": -10,
       "EmployeeMorale": 0,
@@ -846,6 +846,346 @@
       "CompanyCash": 10,
       "EmployeeMorale": 10,
       "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "An open-standard is emerging that your company would have an interest in. Join up?",
+    "Choice1": "Join and invest in the making of the standard",
+    "Choice2": "Develop your own competing proprietary standard",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Should your company adopt pro-Right to Repair policies?",
+    "Choice1": "Better start early, regulators will catch up eventually",
+    "Choice2": "That would cut cash flows, let's hope no one asks...",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 20
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Your hourly workers are upset with their minimum salary jobs without overtime pay",
+    "Choice1": "Living wage? Never heard of it...",
+    "Choice2": "Without them, where would we be?",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "Customers are mad about a recent change to your product",
+    "Choice1": "The customer is always right, change it back",
+    "Choice2": "They'll learn to accept it",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Customers have complained about your abysmal customer support department",
+    "Choice1": "They're just a bunch of crybabies",
+    "Choice2": "Implement reforms to improve their experience",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 20
+    }
+  },
+  {
+    "Scenario": "Your salespeople are complaining about a toxic work environment due to your commission policy",
+    "Choice1": "Restructure their compensation to try to alleviate this",
+    "Choice2": "Commissions drive sales, keep it",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 20,
+      "EmployeeProductivity": -20,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -20,
+      "EmployeeProductivity": 20,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "You have a compelling offer from a large corporation to do a merger. There's reports of them having a toxic work environment.",
+    "Choice1": "My employees deserve better, reject the offer",
+    "Choice2": "All I see is dollar bills",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "An employee beloved by all has really been slacking on their work",
+    "Choice1": "Make a statement and replace them",
+    "Choice2": "They help with team building, let them stay",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -20,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Some of your older workers are making way more than the fair market value of similarly-skilled workers",
+    "Choice1": "Convince them to \"retire\"",
+    "Choice2": "You can't buy loyalty",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "You just completed an acquisition, and the CEO of that former company is not well liked. How do you handle them?",
+    "Choice1": "Make them an offer they can't refuse",
+    "Choice2": "Move them to a different role internally",
+    "SelectChoice1": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Some in the media are beginning to report that your product might not be safe for consumers",
+    "Choice1": "Get ahead of this to hopefully save some face",
+    "Choice2": "I've never even heard of these news outlets...",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "You're informed of a critical vulnerability in your company's IT infrastructure.",
+    "Choice1": "Why would hackers care about our company?",
+    "Choice2": "Take care of it right away",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -20
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "You see that customer returns of your product had a large spike in the last quarter",
+    "Choice1": "Investigate right away, implement changes to make the product better",
+    "Choice2": "Probably nothing to worry about...",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Three straight deliveries from your supplier have arrived late and not in peak condition",
+    "Choice1": "They're the best one around, suck it up",
+    "Choice2": "That's unacceptable, new supplier time",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "Employees are asking for more vacation time to compensate for the tough working conditions",
+    "Choice1": "They're already paid well, that should be enough",
+    "Choice2": "Throw in a few more days",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 20,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A new investor is looking kick in some money your way. Do you take it?",
+    "Choice1": "Why wouldn't I?",
+    "Choice2": "We're fine, thanks",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Studies you commissioned had less than favorable conclusions...",
+    "Choice1": "What studies?",
+    "Choice2": "It's for the greater good, publish them",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "You are thinking about bidding on a military contract",
+    "Choice1": "People generally don't like that, let's steer clear",
+    "Choice2": "Money is money, and the DoD has lots of money",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Some of your company's investments have leaked, and the public is not happy",
+    "Choice1": "It makes us money, who cares",
+    "Choice2": "Shake up your portfolio",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "Because of the neglect of your IT Security specialist, a virus has infected most of your company's computers",
+    "Choice1": "If you want it fixed, you'll need them...",
+    "Choice2": "They're obviously incompetent, fire their ass",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
       "CompanyReputation": 0
     }
   }
