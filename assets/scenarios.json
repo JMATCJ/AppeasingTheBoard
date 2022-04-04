@@ -435,10 +435,282 @@
       "CompanyReputation": 10
     },
     "SelectChoice2": {
-      "CompanyCash": 0,
+      "CompanyCash": 10,
       "EmployeeMorale": 0,
       "EmployeeProductivity": 0,
       "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "Donate to charity or pocket the cash",
+    "Choice1": "Cash is king",
+    "Choice2": "Charity is good for the soul",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "A government report is accusing you of using slave labor",
+    "Choice1": "Change supplier and clean up your act",
+    "Choice2": "Slave labor is a strong term...",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "OSHA finds violations at one of your plants...",
+    "Choice1": "Pay fines and move on",
+    "Choice2": "Implement reform and make work safer",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Employees have been driving recklessly in company vehicles",
+    "Choice1": "Restrict the speed to prevent the reckless driving",
+    "Choice2": "Drive like hell, time is money",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "You get the opertunity to fund some politicians, always good to have a friend right?",
+    "Choice1": "Buy their loyality",
+    "Choice2": "Paying off politicians isn't the most popular move",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "HR says the company needs to do more saftey drills...",
+    "Choice1": "No we don't",
+    "Choice2": "Fine... saftey is important and all that",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Invest in new equipment",
+    "Choice1": "Upgrades baby upgrades",
+    "Choice2": "If it ain't broke don't fix it",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "There was a rat outbreak at a facility how do you deal with it?",
+    "Choice1": "Hire real exterminators",
+    "Choice2": "We have interns for a reason",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "The bean counters found some loans that were long forgot about...",
+    "Choice1": "Fire those morons",
+    "Choice2": "Spare them and make the problem go away",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A friend kicks some business your way for old times sake",
+    "Choice1": "Kick some back to him ;)",
+    "Choice2": "Were not a charity",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "Try to seal a no bid contract with the government",
+    "Choice1": "Make it rain money baby",
+    "Choice2": "Were not Dick Cheney",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -20
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 20
+    }
+  },
+  {
+    "Scenario": "A new marketing campagin was not recived well...",
+    "Choice1": "Pull the add and save face",
+    "Choice2": "Full send, what's done is done",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "HR has proposed a new benifits, better, package ",
+    "Choice1": "Absoutly not, that would cost money",
+    "Choice2": "Gotta stay competitive, lets do it",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Do you sponsor an employee retreat?",
+    "Choice1": "Sure, let them have their fun",
+    "Choice2": "No, you need to earn it",
+    "SelectChoice1": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 20,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 20,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "The police arrest a manager who was well hated but got the job done",
+    "Choice1": "Throw him under the bus",
+    "Choice2": "Pay for his legal defense",
+    "SelectChoice1": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A popular internet forum that deals in stocks has taken a liking to your company",
+    "Choice1": "Embrace it and become their shepard",
+    "Choice2": "Pretend to not know how the internet works",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
     }
   }
 ]
