@@ -510,8 +510,8 @@
     }
   },
   {
-    "Scenario": "You get the opertunity to fund some politicians, always good to have a friend right?",
-    "Choice1": "Buy their loyality",
+    "Scenario": "You get the opportunity to fund some politicians, always good to have a friend right?",
+    "Choice1": "Buy their loyalty",
     "Choice2": "Paying off politicians isn't the most popular move",
     "SelectChoice1": {
       "CompanyCash": -10,
@@ -527,9 +527,9 @@
     }
   },
   {
-    "Scenario": "HR says the company needs to do more saftey drills...",
+    "Scenario": "HR says the company needs to do more safety drills...",
     "Choice1": "No we don't",
-    "Choice2": "Fine... saftey is important and all that",
+    "Choice2": "Fine... safety is important and all that",
     "SelectChoice1": {
       "CompanyCash": 0,
       "EmployeeMorale": -10,
@@ -596,7 +596,7 @@
   },
   {
     "Scenario": "A friend kicks some business your way for old times sake",
-    "Choice1": "Kick some back to him ;)",
+    "Choice1": "Kick some back to him",
     "Choice2": "Were not a charity",
     "SelectChoice1": {
       "CompanyCash": 10,
@@ -629,8 +629,8 @@
     }
   },
   {
-    "Scenario": "A new marketing campagin was not recived well...",
-    "Choice1": "Pull the add and save face",
+    "Scenario": "A new marketing campaign was not received well...",
+    "Choice1": "Pull the ad and save face",
     "Choice2": "Full send, what's done is done",
     "SelectChoice1": {
       "CompanyCash": -10,
@@ -646,8 +646,8 @@
     }
   },
   {
-    "Scenario": "HR has proposed a new benifits, better, package ",
-    "Choice1": "Absoutly not, that would cost money",
+    "Scenario": "HR has proposed a new, better benefits package. Do you adopt it?",
+    "Choice1": "Absolutely not, that would cost money",
     "Choice2": "Gotta stay competitive, lets do it",
     "SelectChoice1": {
       "CompanyCash": 10,
