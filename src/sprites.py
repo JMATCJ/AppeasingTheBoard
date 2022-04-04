@@ -197,11 +197,20 @@ class GenericButton(Sprite):
 
 
 class TextArea(Sprite):
-    def __init__(self, position, value, font_size):
+    # Besides value and font_size, takes a third parameter for its position, which must be keyworded.
+    # Either specify "topleft" or "center", followed by the tuple position.
+    # Examples: TextArea("test value", 16, topleft=(10, 10))
+    #           TextArea("new value", 24, center=(20, 30))
+    def __init__(self, value: str, font_size: int, *_, **pos):
         super().__init__()
         font = SysFont(COMIC_SANS, font_size)
         self.text = font.render(value, True, FONT_COLOR)
-        self.rect = self.text.get_rect(topleft=position)
+        if "topleft" in pos:
+            self.rect = self.text.get_rect(topleft=pos["topleft"])
+        elif "center" in pos:
+            self.rect = self.text.get_rect(center=pos["center"])
+        else:
+            self.rect = self.text.get_rect()
 
     def draw(self, screen, _):
         screen.blit(self.text, self.rect)

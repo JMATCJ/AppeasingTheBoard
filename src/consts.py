@@ -55,8 +55,9 @@ FIRE_STEPS = {
 }
 
 TITLE_SCREEN_INSTRUCTIONS = "You are a CEO tasked with keeping your company afloat. You will be given prompts and \
-choices that affect your company's cash, morale, productivity, and reputation. Pump up your numbers, we don't need \
-rookie numbers here."
+choices that affect your company's cash, morale, productivity, and reputation. At the end of each year, your Board of \
+Directors will evaluate your performance and decide on whether or not to keep you. Learn what makes them tick, and \
+pump up your numbers, we don't need rookie numbers here."
 
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, "frozen", False):

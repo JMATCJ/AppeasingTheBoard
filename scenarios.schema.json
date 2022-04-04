@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JMATCJ/LDJam50/scenarios.schema.json",
+  "title": "LDJam50 Scenarios",
+  "description": "Schema for the scenarios file used for JMATCJ's LDJam50 game",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Scenario": {
+        "description": "The text to be rendered next to the buttons",
+        "type": "string"
+      },
+      "Choice1": {
+        "description": "The text to be rendered on the left button",
+        "type": "string"
+      },
+      "Choice2": {
+        "description": "The text to be rendered on the right button",
+        "type": "string"
+      },
+      "SelectChoice1": {
+        "description": "What the changes in the meters would be if the left button is selected",
+        "type": "object",
+        "properties": {
+          "CompanyCash": {
+            "description": "The change in the Company Cash meter, should the left button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "EmployeeMorale": {
+            "description": "The change in the Employee Morale meter, should the left button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "EmployeeProductivity": {
+            "description": "The change in the Employee Productivity meter, should the left button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "CompanyReputation": {
+            "description": "The change in the Company Reputation meter, should the left button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          }
+        }
+      },
+      "SelectChoice2": {
+        "description": "What the changes in the meters would be if the right button is selected",
+        "type": "object",
+        "properties": {
+          "CompanyCash": {
+            "description": "The change in the Company Cash meter, should the right button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "EmployeeMorale": {
+            "description": "The change in the Employee Morale meter, should the right button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "EmployeeProductivity": {
+            "description": "The change in the Employee Productivity meter, should the right button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "CompanyReputation": {
+            "description": "The change in the Company Reputation meter, should the right button be selected",
+            "type": "integer",
+            "minimum": -100,
+            "maximum": 100
+          }
+        }
+      }
+    },
+    "required": ["Scenario", "Choice1", "Choice2", "SelectChoice1", "SelectChoice2"]
+  },
+  "minItems": 1,
+  "uniqueItems": true
+}

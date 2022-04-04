@@ -51,11 +51,11 @@ class GameState:
     def build_screen(self):
         self.all_sprites.empty()
         if self.screen_state == GameState.States.TITLE_SCREEN:
-            title = TextArea((270, 125), "Box Explorer 2: Home", 72)
+            title = TextArea("Box Explorer 2: Home", 72, center=(640, 125))
             title_font = pygame.font.SysFont(VERDANA, 28)
-            instructions = TextAreaWrapped(pygame.Rect(340, 225, 600, 200), TITLE_SCREEN_INSTRUCTIONS,
+            instructions = TextAreaWrapped(pygame.Rect(280, 200, 720, 300), TITLE_SCREEN_INSTRUCTIONS,
                                            title_font, FONT_COLOR)
-            start_game_button = GenericButton((528, 450), "playagain",
+            start_game_button = GenericButton((528, 500), "playagain",
                                               lambda: self.transition_state(GameState.States.GAMEPLAY))
             self.all_sprites.add(title, instructions, start_game_button)
 
@@ -78,8 +78,9 @@ class GameState:
             prompt_4 = Prompt(543, 6, four_scenarios[3])
 
             # Build text areas
-            round_text = TextArea((20, 10), f"Y{self.year} Q{self.quarter}", 36)
-            ctbf_text = TextArea((10, 300), f"Chance to be fired: {min(self.chance_of_being_fired, 100):.2f}%", 24)
+            round_text = TextArea(f"Y{self.year} Q{self.quarter}", 36, topleft=(20, 10))
+            ctbf_text = TextArea(f"Chance to be fired: {min(self.chance_of_being_fired, 100):.0f}%", 24,
+                                 topleft=(10, 330))
 
             # Build NextRound Button
             next_round = NextRound()
@@ -94,7 +95,7 @@ class GameState:
             if not pygame.mixer.music.get_busy():
                 pygame.mixer.music.play(loops=-1)  # Loop forever
         elif self.screen_state == GameState.States.GAME_OVER:
-            prompt_1 = TextArea((456, 210), "Game Over", 72)
+            prompt_1 = TextArea("Game Over", 72, topleft=(456, 210))
 
             play_again = GenericButton((350, 400), "playagain", lambda: pygame.event.post(Event(NEWGAME)))
             exit_btn = GenericButton((700, 400), "exit", lambda: pygame.event.post(Event(QUIT)))

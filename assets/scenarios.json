@@ -18,7 +18,7 @@
   },
   {
     "Scenario": "Your company had a record quarter, do you issue bonuses or pay dividends?",
-    "Choice1": "Pay bonuses, let the working man taste their labor",
+    "Choice1": "Pay bonuses, let the working class taste their labor",
     "Choice2": "Pay dividends, let the rich get richer, and the rich are my friends",
     "SelectChoice1": {
       "CompanyCash": 0,
@@ -391,8 +391,8 @@
     }
   },
   {
-    "Scenario": "A ransomware attack has his your company's computers, and you're without a recent backup. What do you do?",
-    "Choice1": "Cough up the ransom, you can't risk that progress",
+    "Scenario": "A ransomware attack has hit your company's computers, and you're without a recent backup. What do you do?",
+    "Choice1": "Cough up the ransom, you can't risk losing that progress",
     "Choice2": "Don't give those script kiddies any money, hope your backup is good enough",
     "SelectChoice1": {
       "CompanyCash": -10,
@@ -459,7 +459,7 @@
     }
   },
   {
-    "Scenario": "A government report is accusing you of using slave labor",
+    "Scenario": "A government report is accusing one of your suppliers of using slave labor",
     "Choice1": "Change supplier and clean up your act",
     "Choice2": "Slave labor is a strong term...",
     "SelectChoice1": {
@@ -544,8 +544,8 @@
     }
   },
   {
-    "Scenario": "Invest in new equipment",
-    "Choice1": "Upgrades baby upgrades",
+    "Scenario": "Invest in new equipment?",
+    "Choice1": "Upgrades baby, upgrades",
     "Choice2": "If it ain't broke don't fix it",
     "SelectChoice1": {
       "CompanyCash": -10,
@@ -596,8 +596,8 @@
   },
   {
     "Scenario": "A friend kicks some business your way for old times sake",
-    "Choice1": "Kick some back to him",
-    "Choice2": "Were not a charity",
+    "Choice1": "Kick some back to them",
+    "Choice2": "We're not a charity",
     "SelectChoice1": {
       "CompanyCash": 10,
       "EmployeeMorale": 0,
@@ -614,7 +614,7 @@
   {
     "Scenario": "Try to seal a no bid contract with the government",
     "Choice1": "Make it rain money baby",
-    "Choice2": "Were not Dick Cheney",
+    "Choice2": "We're not Dick Cheney",
     "SelectChoice1": {
       "CompanyCash": 20,
       "EmployeeMorale": 0,
@@ -681,8 +681,8 @@
   },
   {
     "Scenario": "The police arrest a manager who was well hated but got the job done",
-    "Choice1": "Throw him under the bus",
-    "Choice2": "Pay for his legal defense",
+    "Choice1": "Throw them under the bus",
+    "Choice2": "Pay for their legal defense",
     "SelectChoice1": {
       "CompanyCash": 0,
       "EmployeeMorale": 10,
@@ -711,6 +711,142 @@
       "EmployeeMorale": 0,
       "EmployeeProductivity": 0,
       "CompanyReputation": 10
+    }
+  },
+  {
+    "Scenario": "A large number of employees have staged a walkout because of some company practices. How do you handle it?",
+    "Choice1": "Meet their demands, institute immediate change",
+    "Choice2": "Let them have their day",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "A company learns that you've been using an evaluation version of their software for years, and they want you to pay up for the real license",
+    "Choice1": "Pay up, cheaper than lawyers or switching to a new application",
+    "Choice2": "We didn't even like the software anyways, find a new one",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": -10
+    }
+  },
+  {
+    "Scenario": "One of your products is in incredibly high demand right now, outpacing your supply",
+    "Choice1": "Will customers really notice a \"small\" price bump?",
+    "Choice2": "Tell employees they're working weekends now",
+    "SelectChoice1": {
+      "CompanyCash": 20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Employees are asking for a switch to a 4-day work week, citing recent studies on the subject",
+    "Choice1": "Researchers know best, give it to them",
+    "Choice2": "That's one less day for work to get done, no way",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 20,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "Word gets out about some abhorrent working conditions in one of your factories",
+    "Choice1": "Institute new workplace policies to remedy them",
+    "Choice2": "Deny the rumors, it worked for Amazon right?",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": -20
+    }
+  },
+  {
+    "Scenario": "Employees complain that raises don't outpace cost-of-living increases",
+    "Choice1": "Upgrade your compensation packages",
+    "Choice2": "They should just find cheaper housing",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 10,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": 0,
+      "EmployeeMorale": -10,
+      "EmployeeProductivity": -10,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "It's getting increasingly harder to find new hires trained to use your old equipment",
+    "Choice1": "Train them yourself",
+    "Choice2": "Upgrade the equipment to the new industry standard",
+    "SelectChoice1": {
+      "CompanyCash": -10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
+    },
+    "SelectChoice2": {
+      "CompanyCash": -20,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 20,
+      "CompanyReputation": 0
+    }
+  },
+  {
+    "Scenario": "A year of record profits. Who to kick a share of the money back to?",
+    "Choice1": "Consumers",
+    "Choice2": "Employees",
+    "SelectChoice1": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 0,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 10
+    },
+    "SelectChoice2": {
+      "CompanyCash": 10,
+      "EmployeeMorale": 10,
+      "EmployeeProductivity": 0,
+      "CompanyReputation": 0
     }
   }
 ]
