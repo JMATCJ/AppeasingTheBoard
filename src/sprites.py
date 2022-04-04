@@ -31,8 +31,13 @@ class Meter(pygame.sprite.Sprite):
             w=self.fg_surf.get_width() * (gamestate.meters[self.type] / 100)
         ))
         screen.blit(self.text, self.text_rect)
-        level = self.font.render(f"{gamestate.meters[self.type]} / 100", True, FONT_COLOR)
-        screen.blit(level, level.get_rect(center=self.rect.center))
+        meter_text = f"{gamestate.meters[self.type]} / 100"
+        if gamestate.meters_delta[self.type] > 0:
+            meter_text += f" (+{gamestate.meters_delta[self.type]})"
+        elif gamestate.meters_delta[self.type] < 0:
+            meter_text += f" ({gamestate.meters_delta[self.type]})"
+        meter_text_surf = self.font.render(meter_text, True, FONT_COLOR)
+        screen.blit(meter_text_surf, meter_text_surf.get_rect(center=self.rect.center))
 
 
 class Button(pygame.sprite.Sprite):

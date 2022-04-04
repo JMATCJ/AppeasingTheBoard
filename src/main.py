@@ -72,7 +72,8 @@ class GameState:
         elif self.screen_state == GameState.States.RAND_EVENT:
             pass  # TODO
         elif self.screen_state == GameState.States.GAME_OVER:
-            pass  # TODO
+            prompt_1 = TextArea((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Game Over", 72)
+            self.all_sprites.add(prompt_1)
 
     def transition_round(self):
         if self.ready_for_next_round():
@@ -86,9 +87,17 @@ class GameState:
             # Move to the next quarter
             self.quarter += 1
             if self.quarter >= 5:
+                chance_of_being_fired = 0
+                for meter in self.meters:
+                    if self.meters[meter] < METER_CUTOFFS[meter]:
+                        chance_of_being_fired += (METER_CUTOFFS[meter] - self.meters[meter]) * FIRE_STEPS[meter]
+
+                if random.random() < chance_of_being_fired / 100:
+                    self.screen_state = GameState.States.GAME_OVER
+                
                 self.quarter = 1
                 self.year += 1
-            # TODO: Determine if we change screen state here
+
             # Setup the next screen
             self.build_screen()
 

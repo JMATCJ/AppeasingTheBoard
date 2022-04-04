@@ -27,6 +27,22 @@ CHOICE_TWO = "Choice2"
 CHOICE_ONE_RESULTS = "SelectChoice1"
 CHOICE_TWO_RESULTS = "SelectChoice2"
 
+# When your chance of being pushed out goes > 0
+METER_CUTOFFS = {
+    METER_CASH: 80,
+    METER_MORALE: 60,
+    METER_PROD: 70,
+    METER_REP: 70
+}
+
+# Increase in chance of being fired
+FIRE_STEPS = {
+    METER_CASH: 100 / METER_CUTOFFS[METER_CASH],
+    METER_MORALE: 50 / METER_CUTOFFS[METER_MORALE],
+    METER_PROD: 70 / METER_CUTOFFS[METER_PROD],
+    METER_REP: 60 / METER_CUTOFFS[METER_REP]
+}
+
 # Check if we are in a pyinstaller "onefile" binary. Different path prefix in that case:
 if getattr(sys, 'frozen', False):
     ASSETS_DIR = Path(sys._MEIPASS) / "assets"
