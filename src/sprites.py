@@ -1,5 +1,5 @@
 import pygame
-from typing import Dict, Tuple, Union
+from typing import Callable, Dict, Tuple, Union
 
 from consts import *
 
@@ -138,6 +138,33 @@ class NextRound(pygame.sprite.Sprite):
 
     def handle_click(self, gamestate, _: Tuple[int, int]):
         gamestate.transition_round()
+
+
+class GameOverButton(pygame.sprite.Sprite):
+    # handle_click_func is Callable[GameState, Tuple[int, int]], None]
+    def __init__(self, button_pos: Tuple[int, int], file_basename: str, handle_click_func: Callable):
+        super().__init__()
+        # Next round buttons
+        self.unhovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / f"{file_basename}_up.png").convert()
+        self.hovered_surf = pygame.image.load(ASSETS_DIR / "buttons" / f"{file_basename}_hover.png").convert()
+
+        # Next round position
+        self.rect = self.unhovered_surf.get_rect(topleft=button_pos)
+
+        # Whether or not the player is hovering over the button
+        self.hovered = self.rect.collidepoint(pygame.mouse.get_pos())
+
+        # The handle_click function
+        self.click_func = handle_click_func
+
+    def draw(self, screen, _):
+        if self.hovered:
+            screen.blit(self.hovered_surf, self.rect)
+        else:
+            screen.blit(self.unhovered_surf, self.rect)
+
+    def handle_click(self, _1, _2: Tuple[int, int]):
+        self.click_func()
 
 
 class TextArea(pygame.sprite.Sprite):

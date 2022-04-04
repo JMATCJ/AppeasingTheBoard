@@ -6,40 +6,42 @@ import pygame
 from pygame.locals import MOUSEBUTTONUP, MOUSEMOTION, QUIT
 
 from consts import *
-from sprites import ButtonGroup, Meter, NextRound, TextArea, TextAreaWrapped
+from sprites import ButtonGroup, GameOverButton, Meter, NextRound, TextArea, TextAreaWrapped
 
 
 class GameState:
     class States(enum.Enum):
-        COMMON = enum.auto()
-        RAND_EVENT = enum.auto()
+        TITLE_SCREEN = enum.auto()
+        GAMEPLAY = enum.auto()
         GAME_OVER = enum.auto()
 
     def __init__(self):
         self.year = 1
         self.quarter = 1
-        self.meters = {  # TODO: Different starting values based on difficulty
+        self.meters = {
             METER_CASH: 50,
             METER_MORALE: 50,
             METER_PROD: 50,
             METER_REP: 50
         }
-        self.meters_delta = {  
+        self.meters_delta = {
             METER_CASH: 0,
             METER_MORALE: 0,
             METER_PROD: 0,
             METER_REP: 0
         }
         self.button_states = [False] * 8
-        self.screen_state = GameState.States.COMMON
+        self.screen_state = GameState.States.GAMEPLAY
         self.all_sprites = pygame.sprite.Group()
-        
+
         with (ASSETS_DIR / "scenarios.json").open() as fp:
             self.scenarios = json.load(fp)
 
     def build_screen(self):
         self.all_sprites.empty()
-        if self.screen_state == GameState.States.COMMON:
+        if self.screen_state == GameState.States.TITLE_SCREEN:
+            pass  # TODO
+        elif self.screen_state == GameState.States.GAMEPLAY:
             # Build meters
             company_cash_meter = Meter((10, 385), METER_CASH, "Company Cash", "cash.png")
             employee_morale_meter = Meter((10, 470), METER_MORALE, "Employee Morale", "morale.png")
@@ -69,18 +71,25 @@ class GameState:
             self.all_sprites.add(company_cash_meter, employee_morale_meter, employee_productivity_meter,
                                  company_reputation_meter, button_group_1, button_group_2, button_group_3,
                                  button_group_4, round_text, prompt_1, prompt_2, prompt_3, prompt_4, next_round)
-        elif self.screen_state == GameState.States.RAND_EVENT:
-            pass  # TODO
+
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.play(loops=-1)  # Loop forever
         elif self.screen_state == GameState.States.GAME_OVER:
-            prompt_1 = TextArea((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Game Over", 72)
-            self.all_sprites.add(prompt_1)
+            prompt_1 = TextArea((456, 210), "Game Over", 72)
+
+            play_again = GameOverButton((350, 400), "playagain", reset)
+            exit_btn = GameOverButton((700, 400), "exit", game_exit)
+
+            self.all_sprites.add(prompt_1, play_again, exit_btn)
+
+            pygame.mixer.music.stop()
 
     def transition_round(self):
         if self.ready_for_next_round():
             # Update the meters and reset the deltas
             for meter in self.meters:
                 # Clamp function: sorts the values, gets the one in the middle.
-                self.meters[meter] = sorted((0, self.meters[meter] + self.meters_delta[meter], 100))[1]
+                self.meters[meter] = min(self.meters[meter] + self.meters_delta[meter], 100)
                 self.meters_delta[meter] = 0
             # Reset all the button states
             self.button_states = [False] * 8
@@ -94,7 +103,7 @@ class GameState:
 
                 if random.random() < chance_of_being_fired / 100:
                     self.screen_state = GameState.States.GAME_OVER
-                
+
                 self.quarter = 1
                 self.year += 1
 
@@ -109,9 +118,24 @@ class GameState:
             sprite.draw(screen, self)
 
 
+def reset():
+    global game
+    game = GameState()
+    game.build_screen()
+
+
+def game_exit():
+    global running
+    running = False
+
+
 # Init pygame and the screen
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Setup background music
+pygame.mixer.music.load(ASSETS_DIR / "sounds" / "background.ogg")
+pygame.mixer.music.set_volume(0.20)
 
 # Make the game
 game = GameState()
@@ -119,11 +143,6 @@ game.build_screen()
 
 # Setup the clock that will be used to cap the framerate
 clock = pygame.time.Clock()
-
-# Setup background music
-pygame.mixer.music.load(ASSETS_DIR / "sounds" / "background.ogg")
-pygame.mixer.music.set_volume(0.20)  # TODO: Play with this
-pygame.mixer.music.play(loops=-1)  # Loop forever
 
 running = True
 while running:
