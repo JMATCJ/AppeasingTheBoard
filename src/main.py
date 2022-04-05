@@ -113,14 +113,17 @@ class GameState:
         elif self.screen_state == GameState.States.GAME_OVER:
             prompt_1 = TextArea("Game Over", 72, center=(640, 210))
 
+            prompt_2_text = f"You made it {self.year - 1} year(s) and had a {sorted((0, self.chance_of_being_fired, 100))[1]:.0f}% chance of being fired."
+            prompt_2 = TextArea(prompt_2_text, 24, center=(640, 270))
+
             text_font = pygame.font.SysFont(VERDANA, 28)
-            description = TextAreaWrapped(pygame.Rect(280, 275, 720, 150), GAME_OVER_FLAVORTEXT,
+            description = TextAreaWrapped(pygame.Rect(280, 310, 720, 150), GAME_OVER_FLAVORTEXT,
                                           text_font, FONT_COLOR, centered=True)
 
-            play_again = GenericButton((350, 450), "playagain", lambda: pygame.event.post(Event(NEWGAME)))
-            exit_btn = GenericButton((700, 450), "exit", lambda: pygame.event.post(Event(QUIT)))
+            play_again = GenericButton((350, 485), "playagain", lambda: pygame.event.post(Event(NEWGAME)))
+            exit_btn = GenericButton((700, 485), "exit", lambda: pygame.event.post(Event(QUIT)))
 
-            self.all_sprites.add(prompt_1, description, play_again, exit_btn)
+            self.all_sprites.add(prompt_1, prompt_2, description, play_again, exit_btn)
 
             pygame.mixer.music.pause()
             pygame.mixer.music.rewind()
