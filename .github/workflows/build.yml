@@ -13,14 +13,17 @@ jobs:
         include:
           - os: windows-latest
             TARGET: Windows
-            ARTIFACT_NAME: LDJam50_Windows
-            OUT_FILE_NAME: LDJam50.exe
-            CMD_BUILD: pyinstaller -F -w -n LDJam50 --add-data "assets;assets" -i "icon.ico" src/main.py
+            ARTIFACT_NAME: AppeasingTheBoard_Windows
+            OUT_FILE_NAME: AppeasingTheBoard.exe
+            CMD_BUILD: pyinstaller -F -w -n AppeasingTheBoard --add-data "assets;assets" -i "icon.ico" src/main.py
           - os: macos-latest
             TARGET: macOS
-            ARTIFACT_NAME: LDJam50_macOS_x86
-            OUT_FILE_NAME: LDJam50.app
-            CMD_BUILD: pyinstaller -F -w -n LDJam50 --osx-bundle-identifier "com.github.jmatcj.ld50" --add-data "assets:assets" -i "icon.icns" src/main.py
+            ARTIFACT_NAME: AppeasingTheBoard_macOS_x86
+            OUT_FILE_NAME: AppeasingTheBoard.zip
+            CMD_BUILD: >
+              pyinstaller -F -w -n AppeasingTheBoard --osx-bundle-identifier "com.github.jmatcj.ld50" --add-data "assets:assets" -i "icon.icns" src/main.py &&
+              cd dist/ &&
+              zip -r9 AppeasingTheBoard AppeasingTheBoard.app/
     steps:
       - name: Checkout
         uses: actions/checkout@v3
