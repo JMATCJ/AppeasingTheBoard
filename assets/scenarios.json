@@ -1144,13 +1144,13 @@
     "Choice2": "Money is money, and the DoD has lots of money",
     "SelectChoice1": {
       "CompanyCash": 0,
-      "EmployeeMorale": 0,
+      "EmployeeMorale": -10,
       "EmployeeProductivity": 0,
       "CompanyReputation": 0
     },
     "SelectChoice2": {
       "CompanyCash": 20,
-      "EmployeeMorale": -10,
+      "EmployeeMorale": 0,
       "EmployeeProductivity": 0,
       "CompanyReputation": -10
     }
